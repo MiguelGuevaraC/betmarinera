@@ -1,0 +1,499 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API's BET MARINERA",
+        "description": "API's for transportation management",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/bet-marinera/public/api/logout": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Logout",
+                "description": "Log out user.",
+                "operationId": "561d084f670803598f46ad8f01963a4e",
+                "responses": {
+                    "200": {
+                        "description": "Successful logout"
+                    },
+                    "401": {
+                        "description": "Unauthenticated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "An error occurred while trying to log out. Please try again later."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/bet-marinera/public/api/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Login user",
+                "description": "Authenticate user and generate access token",
+                "operationId": "8373224a2bb9055ec25f0da62a0fb847",
+                "requestBody": {
+                    "description": "User credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "username",
+                                    "password",
+                                    "branchOffice_id"
+                                ],
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "example": "admin"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User authenticated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "description": "token del usuario",
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        "message": {
+                                            "description": "Message Response",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "User not found or password incorrect",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "description": "Error message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/bet-marinera/public/api/authenticate": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Get Profile user",
+                "description": "Get user",
+                "operationId": "7c3f3976fbbdadfd33c7d02e5011abca",
+                "responses": {
+                    "200": {
+                        "description": "User authenticated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "description": "Bearer token",
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        "message": {
+                                            "description": "Message Response",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Bet": {
+                "title": "Bet",
+                "description": "Bet model",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    "contest_id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "contest": {
+                        "$ref": "#/components/schemas/Contest"
+                    },
+                    "contestant_id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "contestant": {
+                        "$ref": "#/components/schemas/Contestant"
+                    }
+                },
+                "type": "object"
+            },
+            "Category": {
+                "title": "Category",
+                "description": "Category model",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "integer",
+                        "example": "name"
+                    },
+                    "description": {
+                        "type": "integer",
+                        "example": "description"
+                    },
+                    "contest_id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/Contest"
+                    }
+                },
+                "type": "object"
+            },
+            "Category_winner": {
+                "title": "Category_winner",
+                "description": "Category_winner model",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "category_id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/Category"
+                    },
+                    "contest_id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "contest": {
+                        "$ref": "#/components/schemas/Contest"
+                    },
+                    "contestant_id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "contestant": {
+                        "$ref": "#/components/schemas/Contestant"
+                    }
+                },
+                "type": "object"
+            },
+            "Contest": {
+                "title": "Contest",
+                "description": "Contest model",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "concurso01"
+                    },
+                    "start_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T00:00:00Z"
+                    },
+                    "end_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T00:00:00Z"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "concurso01"
+                    }
+                },
+                "type": "object"
+            },
+            "Contestant": {
+                "title": "Contestant",
+                "description": "Contestant model",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "juliio y andrea"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "van en parejas"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "Activo"
+                    },
+                    "category_id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/Category"
+                    }
+                },
+                "type": "object"
+            },
+            "Contestant_wins": {
+                "title": "Contestant_wins",
+                "description": "Contestant_wins model",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    "contest_id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "contest": {
+                        "$ref": "#/components/schemas/Contest"
+                    }
+                },
+                "type": "object"
+            },
+            "Permission": {
+                "title": "Permission",
+                "description": "Permission model",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "users"
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "Tipo-01"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "Activo"
+                    }
+                },
+                "type": "object"
+            },
+            "Rol": {
+                "title": "Rol",
+                "description": "Rol model",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Cajero"
+                    },
+                    "person_id": {
+                        "description": "Person Id",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "permissions": {
+                        "description": "Lista de permisos asociados al rol",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Permission"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "User",
+                "description": "User model",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "miguel@gmail.com"
+                    },
+                    "rol_id": {
+                        "description": "Rol Id",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "rol": {
+                        "$ref": "#/components/schemas/Rol"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "Authorization",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "Authentication"
+        }
+    ]
+}
