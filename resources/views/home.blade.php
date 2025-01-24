@@ -49,7 +49,8 @@
                     <div class="dropdown-menu dropdown-menu-right">
                         <a href="profile" class="dropdown-item">Perfil</a>
                         <div class="dropdown-divider"></div>
-                        <a href="logout" class="dropdown-item">Cerrar Sesión</a>
+                        <a href="javascript:void(0);" class="dropdown-item" onclick="logout()">Cerrar Sesión</a>
+
                     </div>
                 </li>
             </ul>
@@ -80,7 +81,7 @@
                     <li>
                         <ul class="nav nav-profile">
                             <li><a href="profile"><i class="fa fa-pencil-alt"></i> Perfil</a></li>
-                            <li><a href="logout"><i class="fa fa-cog"></i> Cerrar Sesión</a></li>
+                            <li><a href="javascript:void(0);" onclick="logout()"><i class="fa fa-cog"></i> Cerrar Sesión</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -108,7 +109,7 @@
             </ol>
             <!-- end breadcrumb -->
             <!-- begin page-header -->
-            <h1 class="page-header">Concursos <small>Marinera</small></h1>
+            <h1 class="page-header">Home <small>Marinera</small></h1>
     
         </div>
         

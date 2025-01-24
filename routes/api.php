@@ -20,5 +20,9 @@ Route::post('login', [AuthenticationController::class, 'login']);
 Route::group(["middleware" => ["auth:sanctum"]], function () {
 
     require __DIR__ . '/Api/AuthApi.php';        //AUTHENTICATE
+    require __DIR__ . '/Api/ContestApi.php';        //CONTEST
+    require __DIR__ . '/Api/UsersApi.php';        //USERS
+    require __DIR__ . '/Api/CategoriesApi.php';        //CATEGORIES
+    require __DIR__ . '/Api/CategoriesApi.php';        //CATEGORIES
     require __DIR__ . '/Api/ContestantApi.php';        //CONTESTANT
 });

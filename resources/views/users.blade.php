@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Apuestas | Home</title>
+    <title>Apuestas | Usuarios</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
     <meta content="" name="description">
     <meta content="" name="author">
@@ -30,7 +30,8 @@
         <div id="header" class="header navbar-inverse">
             <!-- begin navbar-header -->
             <div class="navbar-header">
-                <a href="index-1.html" class="navbar-brand"><span class="navbar-logo"></span> <b>Apuestas</b> Marinera</a>
+                <a href="index-1.html" class="navbar-brand"><span class="navbar-logo"></span> <b>Apuestas</b>
+                    Marinera</a>
                 <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -41,15 +42,17 @@
 
             <!-- begin header-nav -->
             <ul class="navbar-nav navbar-right">
-                               <li class="dropdown navbar-user">
+                <li class="dropdown navbar-user">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="..\assets\img\user\user-13.jpeg" alt="">
-                        <span id="usernamebarra2" class="d-none d-md-inline"> Administrador</span> <b class="caret"></b>
+                        <span id="usernamebarra2" class="d-none d-md-inline"> Administrador</span> <b
+                            class="caret"></b>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a href="profile" class="dropdown-item">Perfil</a>
                         <div class="dropdown-divider"></div>
-                        <a href="logout" class="dropdown-item">Cerrar Sesión</a>
+                        <a href="javascript:void(0);" class="dropdown-item" onclick="logout()">Cerrar Sesión</a>
+
                     </div>
                 </li>
             </ul>
@@ -72,15 +75,17 @@
                             <div class="info">
                                 <b class="caret pull-right"></b>
                                 <p id="usernamebarra">Miguel Guevara</p>
-                                
-                                <small> <p id="typeuser">Administrador</p></small>
+
+                                <small>
+                                    <p id="typeuser">Administrador</p>
+                                </small>
                             </div>
                         </a>
                     </li>
                     <li>
                         <ul class="nav nav-profile">
                             <li><a href="profile"><i class="fa fa-pencil-alt"></i> Perfil</a></li>
-                            <li><a href="logout"><i class="fa fa-cog"></i> Cerrar Sesión</a></li>
+                            <li><a href="javascript:void(0);" onclick="logout()"><i class="fa fa-cog"></i> Cerrar Sesión</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -89,7 +94,7 @@
                 <ul class="nav">
                     <li class="nav-header">Menú de Navegación</li>
                     <li><a href="home"><i class="fa fa-home"></i> Inicio</a></li>
-                    <li><a href="users" style="font-weight: bold"><i class="fa fa-users" ></i> Apostadores</a></li>
+                    <li><a href="users" style="font-weight: bold"><i class="fa fa-users"></i> Apostadores</a></li>
                     <li><a href="concurso-list"><i class="fa fa-trophy"></i> Concursos</a></li>
                     <li><a href="concurso-activo"><i class="fa fa-calendar-check"></i> Concursos Activos</a></li>
                 </ul>
@@ -104,7 +109,7 @@
         <div id="content" class="content">
             <!-- begin breadcrumb -->
             <ol class="breadcrumb float-xl-right">
-                <li class="breadcrumb-item"><a href="javascript:;">Home</li>
+                <li class="breadcrumb-item"><a href="users">Apostadores</li>
             </ol>
             <!-- end breadcrumb -->
             <!-- begin page-header -->
@@ -129,52 +134,62 @@
                 <!-- end panel-heading -->
                 <!-- begin panel-body -->
                 <div class="panel-body">
-                    <table id="table-users" class="table table-striped table-bordered table-td-valign-middle">
-                        <thead>
-                            <tr>
-                                <th width="1%"></th>
-                                <th width="1%" data-orderable="false"></th>
-                                <th class="text-nowrap">Rendering engine</th>
-                                <th class="text-nowrap">Browser</th>
-                                <th class="text-nowrap">Platform(s)</th>
-                                <th class="text-nowrap">Engine version</th>
-                                <th class="text-nowrap">CSS grade</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                       
-                        
-                         
-                            <tr class="gradeC">
-                                <td class="f-s-600 text-inverse">57</td>
-                                <td class="with-img"><img src="..\assets\img\user\user-14.jpeg"
-                                        class="img-rounded height-30"></td>
-                                <td>Misc</td>
-                                <td>PSP browser</td>
-                                <td>PSP</td>
-                                <td>-</td>
-                                <td>C</td>
-                            </tr>
-                            <tr class="gradeU">
-                                <td class="f-s-600 text-inverse">58</td>
-                                <td class="with-img"><img src="..\assets\img\user\user-1.jpeg"
-                                        class="img-rounded height-30"></td>
-                                <td>Other browsers</td>
-                                <td>All others</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>U</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table id="table-users" class="table table-striped table-bordered table-td-valign-middle">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Email</th>
+                                    <th>N° Win</th>
+                                    <th>Rol</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- end panel-body -->
             </div>
             <!-- end panel -->
         </div>
-        <!-- end #content -->
 
-        <!-- end theme-panel -->
+        <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editUserModalLabel">Editar Usuario</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editUserForm">
+                            <div class="form-group">
+                                <label for="firstName">Nombre</label>
+                                <input type="text" class="form-control" id="firstName" name="first_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Apellido</label>
+                                <input type="text" class="form-control" id="lastName" name="last_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Correo Electrónico</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <input type="hidden" id="userId" name="id">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary" onclick="saveUser()">Guardar Cambios</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
 
         <!-- begin scroll to top btn -->
         <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade"
@@ -188,7 +203,7 @@
     <script src="..\assets\js\app.min.js"></script>
     <script src="..\assets\js\theme\default.min.js"></script>
     <!-- ================== END BASE JS ================== -->
-    <script src="..\resources\js\home.js"></script>
+    <script src="..\resources\js\user.js"></script>
     <script src="..\resources\js\config.js"></script>
     <!-- ================== BEGIN PAGE LEVEL JS ================== -->
     <script src="..\assets\plugins\datatables.net\js\jquery.dataTables.min.js"></script>
@@ -197,6 +212,78 @@
     <script src="..\assets\plugins\datatables.net-responsive-bs4\js\responsive.bootstrap4.min.js"></script>
     <script src="..\assets\js\demo\table-manage-default.demo.js"></script>
 
+
+
+    <script>
+        $(document).ready(function() {
+            // Inicialización de DataTable
+            $('#table-users').DataTable({
+                processing: true, // Muestra un indicador de "cargando"
+                serverSide: true, // Activar procesamiento del lado del servidor
+                ajax: {
+                    url: API_RUTA + '/list-users', // Ruta a tu API
+                    type: 'GET', // Método HTTP
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem(
+                            'token') // Envía el token almacenado
+                    },
+                    data: function(d) {
+                        // Modifica los datos enviados al servidor
+                        return {
+                            page: (d.start / d.length) + 1, // Calcula la página actual
+                            per_page: d.length, // Cantidad de registros por página
+                            search: d.search.value // Valor del campo de búsqueda
+                        };
+                    }
+                },
+                columns: [{
+                        data: null, // Usamos null porque no es un campo directo, lo generaremos en el render
+                        name: 'full_name', // Puedes darle un nombre lógico
+                        title: 'Nombre',
+                        render: function(data, type, row) {
+                            return row.first_name + ' ' + row.last_name; // Concatenamos los campos
+                        }
+                    },
+
+                    {
+                        data: 'email',
+                        name: 'email',
+                        title: 'Email',
+                        render: function(data, type, row) {
+                            return data; // Formatea la fecha
+                        }
+                    }, // Columna Nombre
+                    {
+                        data: 'count-win',
+                        name: 'count-win',
+                        title: 'Nro Win',
+                        render: function(data, type, row) {
+                            return data; // Formatea la fecha
+                        }
+                    }, // Columna Nombre
+                    {
+                        data: 'rol.name',
+                        name: 'rol.name',
+                        title: 'Rol',
+                        render: function(data, type, row) {
+                            return data; // Formatea la fecha
+                        }
+                    }, // Columna Fecha de Inicio
+
+                    {
+                        data: 'action',
+                        name: 'action',
+                        title: 'Acciones',
+                        render: function(data, type, row) {
+                            return data; // Muestra las acciones
+                        }
+                    }
+                ],
+                language: DATATABLES_LANGUAGE_ES
+
+            });
+        });
+    </script>
 
     <!-- ================== END PAGE LEVEL JS ================== -->
     <script>

@@ -15,8 +15,11 @@ return new class extends Migration
     {
         Schema::create('contestants', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->unsigned()->constrained('users');
+            $table->string('names');
+            $table->text('description')->nullable(); // Campo opcional para la descripción
+            $table->string('status')->default('Activo')->nullable();
             $table->foreignId('contest_id')->nullable()->unsigned()->constrained('contests');
+            $table->foreignId('category_id')->nullable()->unsigned()->constrained('categories');
             $table->timestamps(); // Incluye `created_at` y `updated_at`
             $table->softDeletes(); // Añade soporte para soft deletes
 

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Apuestas | Home</title>
+    <title>Apuestas | Concursos Activos</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
     <meta content="" name="description">
     <meta content="" name="author">
@@ -30,8 +30,7 @@
         <div id="header" class="header navbar-inverse">
             <!-- begin navbar-header -->
             <div class="navbar-header">
-                <a href="index-1.html" class="navbar-brand"><span class="navbar-logo"></span> <b>Apuestas</b>
-                    Marinera</a>
+                <a href="index-1.html" class="navbar-brand"><span class="navbar-logo"></span> <b>Apuestas</b> Marinera</a>
                 <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -42,16 +41,16 @@
 
             <!-- begin header-nav -->
             <ul class="navbar-nav navbar-right">
-                <li class="dropdown navbar-user">
+                               <li class="dropdown navbar-user">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="..\assets\img\user\user-13.jpeg" alt="">
-                        <span id="usernamebarra2" class="d-none d-md-inline"> Administrador</span> <b
-                            class="caret"></b>
+                        <span id="usernamebarra2" class="d-none d-md-inline"> Administrador</span> <b class="caret"></b>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a href="profile" class="dropdown-item">Perfil</a>
                         <div class="dropdown-divider"></div>
-                        <a href="logout" class="dropdown-item">Cerrar Sesión</a>
+                        <a href="javascript:void(0);" class="dropdown-item" onclick="logout()">Cerrar Sesión</a>
+
                     </div>
                 </li>
             </ul>
@@ -74,17 +73,15 @@
                             <div class="info">
                                 <b class="caret pull-right"></b>
                                 <p id="usernamebarra">Miguel Guevara</p>
-
-                                <small>
-                                    <p id="typeuser">Administrador</p>
-                                </small>
+                                
+                                <small> <p id="typeuser">Administrador</p></small>
                             </div>
                         </a>
                     </li>
                     <li>
                         <ul class="nav nav-profile">
                             <li><a href="profile"><i class="fa fa-pencil-alt"></i> Perfil</a></li>
-                            <li><a href="logout"><i class="fa fa-cog"></i> Cerrar Sesión</a></li>
+                            <li><a href="javascript:void(0);" onclick="logout()"><i class="fa fa-cog"></i> Cerrar Sesión</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -95,8 +92,8 @@
                     <li><a href="home"><i class="fa fa-home"></i> Inicio</a></li>
                     <li><a href="users"><i class="fa fa-users"></i> Apostadores</a></li>
 
-                    <li><a href="concurso-list"  style="font-weight: bold"><i class="fa fa-trophy"></i> Concursos</a></li>
-                    <li><a href="concurso-activo"><i class="fa fa-calendar-check"></i> Concursos Activos</a></li>
+                    <li><a href="concurso-list"><i class="fa fa-trophy"></i> Concursos</a></li>
+                    <li><a href="concurso-activo"  style="font-weight: bold"><i class="fa fa-calendar-check"></i> Concursos Activos</a></li>
                 </ul>
 
             </div>
@@ -109,11 +106,11 @@
         <div id="content" class="content">
             <!-- begin breadcrumb -->
             <ol class="breadcrumb float-xl-right">
-                <li class="breadcrumb-item"><a href="javascript:;">Home</li>
+                <li class="breadcrumb-item"><a href="concurso-activo">Concurso Activo</li>
             </ol>
             <!-- end breadcrumb -->
             <!-- begin page-header -->
-            <h1 class="page-header">Concursos <small> Marinera</small></h1>
+            <h1 class="page-header">Concursos Activos <small> Marinera</small></h1>
             <!-- end page-header -->
             <!-- begin panel -->
             <div class="panel panel-inverse">
@@ -134,45 +131,45 @@
                 <!-- end panel-heading -->
                 <!-- begin panel-body -->
                 <div class="panel-body">
-                    <div class="table-responsive">
-                        <table id="table-contant" class="table table-striped table-bordered table-td-valign-middle">
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Fecha de Inicio</th>
-                                    <th>Fecha de Fin</th>
-                                    <th>Nro Participantes</th>
-                                    <th >Nro Categorias</th>
-                                    <th>Estado</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
+                    <table id="table-contant-active" class="table table-striped table-bordered table-td-valign-middle">
+                        <thead>
+                            <tr>
+                                <th width="1%"></th>
+                                <th width="1%" data-orderable="false"></th>
+                                <th class="text-nowrap">Rendering engine</th>
+                                <th class="text-nowrap">Browser</th>
+                                <th class="text-nowrap">Platform(s)</th>
+                                <th class="text-nowrap">Engine version</th>
+                                <th class="text-nowrap">CSS grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                       
+                        
+                         
+                            <tr class="gradeC">
+                                <td class="f-s-600 text-inverse">57</td>
+                                <td class="with-img"><img src="..\assets\img\user\user-14.jpeg"
+                                        class="img-rounded height-30"></td>
+                                <td>Misc</td>
+                                <td>PSP browser</td>
+                                <td>PSP</td>
+                                <td>-</td>
+                                <td>C</td>
+                            </tr>
+                            <tr class="gradeU">
+                                <td class="f-s-600 text-inverse">58</td>
+                                <td class="with-img"><img src="..\assets\img\user\user-1.jpeg"
+                                        class="img-rounded height-30"></td>
+                                <td>Other browsers</td>
+                                <td>All others</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>U</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                
-                <!-- Agregar este CSS para mejorar la responsividad y ocultar columnas en pantallas pequeñas -->
-                <style>
-                    .table-responsive {
-                        overflow-x: auto;
-                        -webkit-overflow-scrolling: touch;
-                    }
-                
-                    /* Ocultar columnas en pantallas pequeñas */
-                    @media (max-width: 767px) {
-                        .table td, .table th {
-                            white-space: nowrap;
-                        }
-                
-                        .table img {
-                            width: 30px;  /* Ajuste para imágenes en pantallas pequeñas */
-                        }
-      
-                    }
-                </style>
-                
                 <!-- end panel-body -->
             </div>
             <!-- end panel -->
@@ -202,87 +199,6 @@
     <script src="..\assets\plugins\datatables.net-responsive-bs4\js\responsive.bootstrap4.min.js"></script>
     <script src="..\assets\js\demo\table-manage-default.demo.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            // Inicialización de DataTable
-            $('#table-contant').DataTable({
-                processing: true, // Muestra un indicador de "cargando"
-                serverSide: true, // Activar procesamiento del lado del servidor
-                ajax: {
-                    url: 'http://localhost/bet-marinera/public/api/list-contest', // Ruta a tu API
-                    type: 'GET', // Método HTTP
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token') // Envía el token almacenado
-                    },
-                    data: function(d) {
-                        // Modifica los datos enviados al servidor
-                        return {
-                            page: (d.start / d.length) + 1, // Calcula la página actual
-                            per_page: d.length, // Cantidad de registros por página
-                            search: d.search.value // Valor del campo de búsqueda
-                        };
-                    }
-                },
-                columns: [
-                    { data: 'name', name: 'name', title: 'Nombre' }, // Columna Nombre
-                    { 
-                        data: 'start_date', 
-                        name: 'start_date', 
-                        title: 'Fecha de Inicio',
-                        render: function(data, type, row) {
-                            return data; // Formatea la fecha
-                        }
-                    }, // Columna Fecha de Inicio
-                    { 
-                        data: 'end_date', 
-                        name: 'end_date', 
-                        title: 'Fecha de Fin',
-                        render: function(data, type, row) {
-                            return data; // Formatea la fecha
-                        }
-                    }, // Columna Fecha de Fin
-                    { 
-                        data: 'categories_count', 
-                        name: 'categories_count', 
-                        title: 'Nro Categorias',
-            
-                        render: function(data, type, row) {
-                            return data; // Muestra el valor
-                        }
-                    }, // Columna Nro Categorías
-                    { 
-                        data: 'contestants_count', 
-                        name: 'contestants_count', 
-                        title: 'Nro Participantes',
-                       
-                        render: function(data, type, row) {
-                            return data; // Muestra el valor
-                        }
-                    }, // Columna Nro Participantes
-                    { 
-                        data: 'status', 
-                        name: 'status', 
-                        title: 'Estado',
-                        render: function(data, type, row) {
-                            return data; // Muestra el estado
-                        }
-                    }, // Columna Estado
-                    { 
-                        data: 'action', 
-                        name: 'action', 
-                        title: 'Acciones',
-                        render: function(data, type, row) {
-                            return data; // Muestra las acciones
-                        }
-                    } 
-                ],
-                language: {
-                    url: "//cdn.datatables.net/plug-ins/1.11.5/i18n/Spanish.json" // Traducción al español
-                }
-            });
-        });
-    </script>
-    
 
     <!-- ================== END PAGE LEVEL JS ================== -->
     <script>

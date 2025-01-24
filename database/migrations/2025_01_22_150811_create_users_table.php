@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('status')->default('Activo')->nullable();
             $table->foreignId('rol_id')->nullable()->unsigned()->constrained('rols');
             $table->timestamps(); // Incluye `created_at` y `updated_at`
             $table->softDeletes(); // Añade soporte para soft deletes

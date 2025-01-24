@@ -20,13 +20,28 @@ class ContestResource extends JsonResource
     public function toArray($request)
     {
         // Definir el botón de acción solo si tiene 1 categoría y 2 participantes
-        $actionButtons = '  <button class="btn btn-sm btn-primary" onclick="addCategory(' . $this->id . ')" data-toggle="tooltip" title="Agregar Categorías">
-                    <i class="fa fa-tags"></i>
-                </button>
-                <button class="btn btn-sm btn-success" onclick="addParticipant(' . $this->id . ')" data-toggle="tooltip" title="Agregar Participantes">
-                    <i class="fa fa-users"></i>
-                </button>';
-        if ($this->categories()->count() == 1 && $this->contestants()->count() == 2  && $this->status!='Activo') {
+        $actionButtons = '
+        <button class="btn btn-sm btn-primary" onclick="showCategories(' . $this->id . ')" data-toggle="tooltip" title="Agregar Categorías">
+            <i class="fa fa-tags"></i>
+        </button>
+
+        <button class="btn btn-sm btn-warning" onclick="editContest(' . $this->id . ', \'' . $this->name . '\', \'' . $this->start_date . '\', \'' . $this->end_date . '\')" data-toggle="tooltip" title="Editar Concurso">
+            <i class="fa fa-edit"></i>
+        </button>
+';
+
+        if ($this->categories()->count() > 0) {
+            $actionButtons .= '<button class="btn btn-sm btn-success" onclick="showContestants(' . $this->id . ')" data-toggle="tooltip" title="Agregar Participantes">
+    <i class="fa fa-users"></i>
+</button>';
+        }
+        if ($this->categories()->count() == 0) {
+            $actionButtons .= '<button class="btn btn-sm btn-danger" onclick="deleteContest(' . $this->id . ')" data-toggle="tooltip" title="Eliminar Concurso">
+        <i class="fa fa-trash"></i>
+    </button>';
+        }
+
+        if ($this->categories()->count() > 0 && $this->contestants()->count() > 1 && $this->status != 'Activo') {
             $actionButtons .= '
 
                 <button class="btn btn-sm btn-warning" onclick="activateContest(' . $this->id . ')" data-toggle="tooltip" title="Activar">
@@ -43,6 +58,7 @@ class ContestResource extends JsonResource
             'contestants_count' => $this->contestants()->count(), // Cuenta los concursantes
             'status'            => $this->status ?? null,
             'action'            => $actionButtons, // Solo incluirá los botones si cumple la condición
+            'created_at'        => $this->created_at ? $this->created_at->format('Y-m-d H:i:s') : null,
         ];
     }
 

@@ -29,6 +29,7 @@ class Contest extends Model
         'name' => 'like',
         'start_date' => 'between',
         'status' => 'like',
+
     ];
 
     /**

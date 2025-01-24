@@ -1,8 +1,6 @@
 <?php
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -26,19 +24,20 @@ class Category extends Model
         'deleted_at',
     ];
     const filters = [
-        'name' => 'like',
+        'name'        => 'like',
         'description' => 'like',
-        'status' => 'like',
+        'status'      => 'like',
+        'contest_id'  => "=",
     ];
 
     /**
      * Campos de ordenación disponibles.
      */
     const sorts = [
-        'id' => 'desc',
-        'name' => 'desc',
+        'id'     => 'desc',
+        'name'   => 'desc',
         'status' => 'desc',
-       
+
     ];
 
     public function contest()

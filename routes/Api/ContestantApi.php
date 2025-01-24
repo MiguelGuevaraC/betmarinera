@@ -1,11 +1,14 @@
 <?php
 
-use App\Http\Controllers\AuthenticationController;
-use App\Http\Controllers\ConstantController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\ContestantController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(["middleware" => ["auth:sanctum"]], function () {
-    Route::get('list-contest', [ConstantController::class, 'list']);
+    Route::get('list-contestants', [ContestantController::class, 'list']);
+
+    Route::post('contestant', [ContestantController::class, 'store']);
+    Route::get('contestant/{id}', [ContestantController::class, 'show']);
+    Route::put('contestant/{id}', [ContestantController::class, 'update']);
+    Route::delete('contestant/{id}', [ContestantController::class, 'destroy']);
 
 });

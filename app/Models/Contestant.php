@@ -15,6 +15,7 @@ class Contestant extends Model
         'description',
         'status',
         'category_id',
+        'contest_id',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -26,9 +27,11 @@ class Contestant extends Model
         'deleted_at',
     ];
     const filters = [
-        'name' => 'like',
+        'names' => 'like',
         'description' => 'like',
         'status' => 'like',
+        'category_id' => '=',
+        'contest_id' => '=',
     ];
 
     /**
@@ -36,7 +39,7 @@ class Contestant extends Model
      */
     const sorts = [
         'id' => 'desc',
-        'name' => 'desc',
+        'names' => 'desc',
         'status' => 'desc',
        
     ];

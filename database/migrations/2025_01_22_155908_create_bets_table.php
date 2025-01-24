@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('status')->default('Activo')->nullable();
             $table->foreignId('user_id')->nullable()->unsigned()->constrained('users');
-            $table->foreignId('contest_id')->nullable()->unsigned()->constrained('contests');
+            $table->foreignId('contestant_id')->nullable()->unsigned()->constrained('contestants');
             $table->foreignId('category_id')->nullable()->unsigned()->constrained('categories');
             
             $table->timestamps(); // Incluye `created_at` y `updated_at`

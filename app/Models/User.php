@@ -21,6 +21,7 @@ class User extends Authenticatable
         'id',
         'first_name',
         'last_name',
+        'status',
         'email',
         'password',
         'rol_id',
@@ -51,6 +52,7 @@ class User extends Authenticatable
         'last_name'  => 'like',
         'email'      => 'like',
         'rol.name'   => 'like',
+        'status'   => '=',
     ];
 
     /**
@@ -65,4 +67,6 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Rol::class, 'rol_id');
     }
+
+
 }
