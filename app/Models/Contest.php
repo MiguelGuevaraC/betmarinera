@@ -1,10 +1,9 @@
 <?php
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Contest extends Model
 {
@@ -26,9 +25,9 @@ class Contest extends Model
         'deleted_at',
     ];
     const filters = [
-        'name' => 'like',
+        'name'       => 'like',
         'start_date' => 'between',
-        'status' => 'like',
+        'status'     => 'like',
 
     ];
 
@@ -36,10 +35,10 @@ class Contest extends Model
      * Campos de ordenación disponibles.
      */
     const sorts = [
-        'id' => 'desc',
-        'name' => 'desc',
+        'id'     => 'desc',
+        'name'   => 'desc',
         'status' => 'desc',
-       
+
     ];
 
     public function categories()
@@ -50,5 +49,18 @@ class Contest extends Model
     {
         return $this->hasMany(Contestant::class);
     }
- 
+
+    public function consultarstatusByUser(): string
+    {
+        $contestBet = Contest_bet::where('contest_id', $this->id)
+            ->where('user_id', Auth::user()->id)
+            ->first();
+        $status = '';
+        if ($contestBet) {
+            $status = 'Apuesta Confirmada';
+        } else {
+            $status = 'Apuesta No Confirmada';
+        }
+        return $status;
+    }
 }

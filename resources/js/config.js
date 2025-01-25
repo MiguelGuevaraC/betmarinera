@@ -1,13 +1,15 @@
-const API_RUTA = "http://localhost/bet-marinera/public/api";
-const WEB_RUTA = "http://localhost/bet-marinera/public";
+const API_RUTA = WEB_RUTA+"/api";
+const WEB_RUTA = WEB_RUTA+"";
 const DATA_SRC_FUNCTION = function (json) {
-    // Usamos la constante TOTAL_RECORDS_PATH para acceder a json.meta.total
-    const totalRecords = json?.meta?.total ?? 0;  // Usamos valor por defecto (0) si no existe
+    // Asegurarse de que json tiene la propiedad meta y meta.total
+    const totalRecords = (json && json.meta && json.meta.total) ? json.meta.total : 0;
     json.recordsTotal = totalRecords;
-    json.recordsFiltered = totalRecords;  // Si no hay filtrado, usas el mismo total
+    json.recordsFiltered = totalRecords;  // Si no hay filtrado, usamos el mismo total
 
-    return json.data; // Devuelve los datos de la tabla
+    // Verificar que json.data esté presente y sea un array
+    return Array.isArray(json.data) ? json.data : [];
 };
+
 
 const DATATABLES_LANGUAGE_ES = {
     processing: "Procesando...",
@@ -58,13 +60,16 @@ function logout() {
     });
 }
 
-function verifyToken(token) {
+function verifyToken(token,ruta) {
     $.ajax({
         url: API_RUTA + "/authenticate", // Ruta del backend para verificar el token
         type: "GET", // Usamos GET porque es solo una verificación
         dataType: "json",
         headers: {
             Authorization: "Bearer " + token, // Enviar el token en el encabezado
+        },
+        data:{
+            route:ruta??'home'
         },
         beforeSend: function () {
             // Puedes agregar un spinner o algo para indicar que se está verificando
@@ -73,8 +78,9 @@ function verifyToken(token) {
         success: function (response) {
             // Si la respuesta indica que el token es válido
             if (response.message == "Autenticado") {
-                console.log("Authenticado");
+                console.log("Autenticado");
 
+                // Actualizar los elementos del DOM con los datos del usuario
                 $("#usernamebarra").text(
                     response.user.first_name + " " + response.user.last_name
                 );
@@ -82,26 +88,58 @@ function verifyToken(token) {
                     response.user.first_name + " " + response.user.last_name
                 );
                 $("#typeuser").text(response.user.rol.name);
+
+                // Obtener los permisos del usuario desde la respuesta
+                var permissions = response.user.rol.permissions;
+
+                var $navPermissions = $('#navpermissions');
+                
+                // Limpiar el menú antes de agregar los nuevos ítems
+                $navPermissions.empty();
+                $navPermissions.append('<li class="nav-header">Menú de Navegación</li>');  // Agregar el ítem al menú
+                // Definir los ítems del menú
+                var menuItems = [
+                    { name: 'Inicio', route: 'home', icon: 'fa-home' },
+                    { name: 'Apostadores', route: 'users', icon: 'fa-users' },
+                    { name: 'Concursos', route: 'concurso-list', icon: 'fa-trophy' },
+                    { name: 'Apuestas', route: 'concurso-activo', icon: 'fa-calendar-check' }
+                ];
+
+                // Recorrer los ítems del menú y agregar solo los que el usuario tiene permiso
+                menuItems.forEach(function(item) {
+                    // Comprobamos si el usuario tiene el permiso correspondiente
+                    var permission = permissions.find(p => p.name === item.name);
+                    
+                    // Si el permiso existe y está activo, agregarlo al menú
+                    if (permission) {
+                        var menuItemHTML = `<li><a href="${item.route}"><i class="fa ${item.icon}"></i> ${item.name}</a></li>`;
+                        $navPermissions.append(menuItemHTML);  // Agregar el ítem al menú
+                    }
+                });
+
             } else if (response.message == "SinPermiso") {
-                window.location.href =
-                    "http://localhost/bet-marinera/public/403"; // Redirige al login si el token no es válido
+                window.location.href = WEB_RUTA+"/403"; // Redirige a la página de sin permisos
             } else {
                 // Si la respuesta no indica que está autenticado
                 console.log("Token inválido o expirado.");
-                window.location.href =
-                    "http://localhost/bet-marinera/public/log-in"; // Redirige al login si el token no es válido
+                window.location.href = WEB_RUTA+"/log-in"; // Redirige al login si el token no es válido
             }
         },
         error: function (xhr, status, error) {
             if (xhr.status === 401) {
-                window.location.href =
-                    "http://localhost/bet-marinera/public/log-in";
+                window.location.href = WEB_RUTA+"/log-in"; // Redirige al login si el token es inválido
+            }
+            if (xhr.status === 403) {
+                window.location.href = WEB_RUTA+"/403"; // Redirige al login si el token es inválido
+            }
+
+            if (xhr.status == 500) {
+               window.location.href = WEB_RUTA+"/500"; // Redirige al login si el token es inválido
             }
             // Si hay un error con la solicitud o el token es inválido
             console.log("Error al verificar autenticación:", error);
-            window.location.href =
-                "http://localhost/bet-marinera/public/log-in"; // Redirige al login en caso de error
+          
         },
     });
-    return "ok";
+    return "ok";  // Este valor no se usa, ya que la función es asíncrona
 }

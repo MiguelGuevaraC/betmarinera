@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('login', [AuthenticationController::class, 'login']);
+Route::post('validatemail', [AuthenticationController::class, 'validatemail']);
+Route::post('registerUser', [AuthenticationController::class, 'registerUser']);
 
 Route::group(["middleware" => ["auth:sanctum"]], function () {
 
@@ -23,6 +25,6 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
     require __DIR__ . '/Api/ContestApi.php';        //CONTEST
     require __DIR__ . '/Api/UsersApi.php';        //USERS
     require __DIR__ . '/Api/CategoriesApi.php';        //CATEGORIES
-    require __DIR__ . '/Api/CategoriesApi.php';        //CATEGORIES
     require __DIR__ . '/Api/ContestantApi.php';        //CONTESTANT
+    require __DIR__ . '/Api/BetApi.php';        //BET
 });

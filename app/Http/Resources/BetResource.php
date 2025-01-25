@@ -28,15 +28,10 @@ class BetResource extends JsonResource
             'id'         => $this->id,
             'name'       => $this->name ?? null,
             'description' => $this->description ?? null,
-
-            'user_id'   => $this->user_id ?? null,
             'user'     => $this->user ? new UserResource($this->user) :  null,
 
-            'contest_id'   => $this->contest_id ?? null,
-            'contest'     => $this->contest ? new ContestResource($this->contest) :  null,
-
             'contestant_id'   => $this->contestant_id ?? null,
-            'contestant'     => $this->contestant ? new ContestResource($this->contestant) :  null,
+            'contestant'     => $this->contestant ? new ContestantResource($this->contestant) :  null,
         ];
     }
 }

@@ -21,7 +21,12 @@ class CategoryService
         $Category->update($data);
         return $Category;
     }
-
+    public function updateCategoryWin($Category, String $contestant_win): Category
+    {
+        $Category->contestantwin_id=$contestant_win;
+        $Category->save();
+        return $Category;
+    }
     public function destroyById($id)
     {
         $Category = Category::find($id);

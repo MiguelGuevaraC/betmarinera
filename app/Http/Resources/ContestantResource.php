@@ -3,6 +3,7 @@ namespace App\Http\Resources;
 
 use App\Models\Category;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class ContestantResource extends JsonResource
 {
@@ -30,6 +31,9 @@ class ContestantResource extends JsonResource
             'description' => $this->description ?? null,
 
             'status'      => $this->status ?? null,
+            'statusbet'      => $this->consultarstatus($this->category_id,Auth::user()->id,$this->id) ?? null,
+'bet'      => $this->getbet($this->category_id,Auth::user()->id,$this->id) ?? null,
+
             'category_id' => $this->category_id ?? null,
             'category'    => $this->category ? new CategoryResource($this->category) : null,
 

@@ -87,13 +87,10 @@
                 </ul>
                 <!-- end sidebar user -->
                 <!-- begin sidebar nav -->
-                <ul class="nav">
-                    <li class="nav-header">Menú de Navegación</li>
-                    <li><a href="home"  style="font-weight: bold"><i class="fa fa-home"></i> Inicio</a></li>
-                    <li><a href="users"><i class="fa fa-users"></i> Apostadores</a></li>
-                    <li><a href="concurso-list"><i class="fa fa-trophy"></i> Concursos</a></li>
-                    <li><a href="concurso-activo"><i class="fa fa-calendar-check"></i> Concursos Activos</a></li>
+                <ul class="nav" id="navpermissions">
+                    <!-- El menú se llenará dinámicamente con JavaScript -->
                 </ul>
+                
 
             </div>
             <!-- end sidebar scrollbar -->

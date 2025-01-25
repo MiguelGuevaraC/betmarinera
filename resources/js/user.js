@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    verifyToken(localStorage.getItem('token'));
+    verifyToken(localStorage.getItem('token'),'users');
 });
 
 function editUser(userId,firstname,lastname,email) {

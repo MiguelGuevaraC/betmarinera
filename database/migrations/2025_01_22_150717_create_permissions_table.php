@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('permissions', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->string('route')->nullable();
+            $table->string('icon')->nullable();
             $table->string('type')->nullable();
             $table->string('status')->default('Activo')->nullable();
             

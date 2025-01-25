@@ -1,14 +1,17 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthenticationRequest\LoginRequest;
 use App\Http\Resources\UserResource;
+use App\Mail\SendTokenMail;
 use App\Models\User;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AuthenticationController extends Controller
 {
@@ -113,7 +116,7 @@ class AuthenticationController extends Controller
             $authData = $this->authService->login($request->email, $request->password);
 
             // Verifica si el usuario es null
-            if (!$authData['user']) {
+            if (! $authData['user']) {
                 return response()->json([
                     'error' => $authData['message'],
                 ], 422);
@@ -121,8 +124,8 @@ class AuthenticationController extends Controller
 
             // Retorna la respuesta con el token y el recurso del usuario
             return response()->json([
-                'token' => $authData['token'],
-                'user' => new UserResource($authData['user']),
+                'token'   => $authData['token'],
+                'user'    => new UserResource($authData['user']),
                 'message' => $authData['message'],
             ]);
         } catch (\Exception $e) {
@@ -184,18 +187,86 @@ class AuthenticationController extends Controller
         // Llama al servicio de autenticación
         $result = $this->authService->authenticate();
 
-        // Si la autenticación falla, devuelve el mensaje de error
-        if (!$result['status']) {
-            return response()->json(['error' => $result['message']], 422);
-        }
+
         $token = $request->bearerToken();
+
+        $currentRoute = $request->route;
+        $permissions  = $result['user']->rol->permissions;
+
+        // // Verificar si la ruta actual está dentro de los permisos del usuario
+        $hasPermission = $permissions->contains(function ($permission) use ($currentRoute) {
+            return $permission->route == $currentRoute;
+        });
+
+        // Si no tiene permiso para la ruta, devuelve un error 401
+        if (! $hasPermission) {
+            return response()->json(['message' => 'No Permitido'], 403);
+        }
+   
 
         // Si la autenticación es exitosa, devuelve el token, el usuario y la persona
         return response()->json([
-            'token' => $token,
-            'user' => new UserResource($result['user']),
+            'token'   => $token,
+            'user'    => new UserResource($result['user']),
             'message' => 'Autenticado',
         ]);
+    }
+
+    public function validatemail(Request $request)
+    {
+        // Validar la autorización fija
+        $authHeader = $request->header('Authorization');
+
+        if ($authHeader != 'Bearer ZXCV-CVBN-VBNM') {
+            return response()->json(['status' => 'unauthorized'], 401);
+        }
+
+        $email = $request->email;
+
+        // Verificar si el correo ya está registrado
+        $user = User::where('email', $email)->first();
+        if ($user) {
+            return response()->json(['message' => 'Este correo ya ha sido Verificado'], 422);
+        }
+
+                                            // Generar un token aleatorio
+        $token = bin2hex(random_bytes(16)); // Token de 32 caracteres
+        Cache::put("email_verification_token:{$email}", $token, 120);
+
+        Mail::to($email)->send(new SendTokenMail($token));
+
+        return response()->json(['status' => 'success'], 200);
+    }
+
+    // Función para registrar al usuario utilizando el token
+    public function registerUser(Request $request)
+    {
+        $name     = $request->name;
+        $lastname = $request->lastname;
+        $password = $request->password;
+        $email    = $request->email;
+        $token    = $request->token;
+
+        // Validar que el token esté vigente
+        $cachedToken = Cache::get("email_verification_token:{$email}");
+
+        if ($cachedToken != $token) {
+            return response()->json(['message' => 'Token inválido o expirado'], 422);
+        }
+
+        // Eliminar el token de la caché después de usarlo
+
+        // Crear el usuario en la base de datos
+        $user = User::create([
+            'first_name' => $name ?? '',
+            'last_name'  => $lastname ?? '',
+            'email'      => $email,
+            'rol_id'     => 2,
+            'password'   => Hash::make($password), // Asegúrate de recibir una contraseña segura
+        ]);
+        Cache::forget("email_verification_token:{$email}");
+
+        return response($user, 200);
     }
 
 }

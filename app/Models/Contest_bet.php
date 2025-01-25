@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Category_winner extends Model
+class Contest_bet extends Model
 {
     use SoftDeletes;
     protected $fillable = [
         'id',
-        'status',
+        'user_id',
         'contest_id',
-        'contestant_id',
-        'category_id',
+
+        'status',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -26,6 +26,10 @@ class Category_winner extends Model
         'deleted_at',
     ];
     const filters = [
+  
+        'user_id'=> '=',
+        'contest_id'=> '=',
+        'bet_id'=> '=',
 
     ];
 
@@ -34,18 +38,15 @@ class Category_winner extends Model
      */
     const sorts = [
         'id' => 'desc',
-        'status' => 'desc',
+    
     ];
-    public function category()
+
+    public function user()
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
     public function contest()
     {
         return $this->belongsTo(Contest::class, 'contest_id');
-    }
-    public function contestant()
-    {
-        return $this->belongsTo(Contestant::class, 'contestant_id');
     }
 }

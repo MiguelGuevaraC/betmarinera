@@ -21,6 +21,8 @@ class PermissionResource extends JsonResource
         return [
             'id'     => $this->id,
             'name'   => $this->name ?? null,
+            'route'   => $this->route ?? null,
+            'icon'   => $this->icon ?? null,
             'type'   => $this->type ?? null,
             'status' => $this->status ?? null,
         ];

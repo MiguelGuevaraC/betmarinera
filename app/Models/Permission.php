@@ -12,6 +12,8 @@ class Permission extends Model
     protected $fillable = [
         'id',
         'name',
+        'route',
+        'icon',
         'type',
         'status',
         'created_at',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ContestantRequest\IndexContestantRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Services\AuthService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 
@@ -11,11 +12,13 @@ class UsersController extends Controller
 {
 
     protected $userService;
-
-    public function __construct(UserService $userService)
+    protected $authService;
+    public function __construct(UserService $userService, AuthService $authService)
     {
         $this->userService = $userService;
+        $this->authService = $authService;
     }
+
     public function index(Request $request)
     {
         return view('users');
@@ -86,4 +89,5 @@ class UsersController extends Controller
             'message' => 'Concurso eliminado exitosamente.',
         ], 200);
     }
+
 }

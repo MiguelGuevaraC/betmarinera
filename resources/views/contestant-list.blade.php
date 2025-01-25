@@ -102,14 +102,8 @@
                 </ul>
                 <!-- end sidebar user -->
                 <!-- begin sidebar nav -->
-                <ul class="nav">
-                    <li class="nav-header">Menú de Navegación</li>
-                    <li><a href="home"><i class="fa fa-home"></i> Inicio</a></li>
-                    <li><a href="users"><i class="fa fa-users"></i> Apostadores</a></li>
-
-                    <li><a href="concurso-list" style="font-weight: bold"><i class="fa fa-trophy"></i> Concursos</a>
-                    </li>
-                    <li><a href="concurso-activo"><i class="fa fa-calendar-check"></i> Concursos Activos</a></li>
+                <ul class="nav" id="navpermissions">
+                    <!-- El menú se llenará dinámicamente con JavaScript -->
                 </ul>
 
             </div>
@@ -376,6 +370,74 @@
         </div>
 
 
+        <div id="contestantWinCategory" class="modal fade" tabindex="-1" role="dialog"
+        aria-labelledby="editConcursoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document"
+            style="max-width: 90%; width: 90%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editConcursoModalLabel">Seleccionar concursante Ganador</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="updatewincategory" class="row align-items-end" style="margin: auto; text-align: justify">
+                        <!-- Aquí va el contenido de la tabla de concursantes -->
+                        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                            <table id="contestantsWinCategoryTable" class="table table-striped table-bordered table-sm">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Categoria</th>
+                                        <th scope="col">Ganador</th>
+                                        <th scope="col">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Filas dinámicas de concursantes se agregarán aquí -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div id="listapostadores" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="listapostadores" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document"
+        style="max-width: 90%; width: 90%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="listapostadores">Listado de Apostadores</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="updatewincategory" class="row align-items-end" style="margin: auto; text-align: justify">
+                    <!-- Aquí va el contenido de la tabla de concursantes -->
+                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                        <table id="contestApostadorTable" class="table table-striped table-bordered table-sm">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Apostador</th>
+                                    <th scope="col">Puntaje</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Filas dinámicas de concursantes se agregarán aquí -->
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
         <!-- begin scroll to top btn -->
         <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade"
             data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
@@ -391,7 +453,7 @@
     <!-- Incluir Select2 -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="..\resources\js\contestant-list.js"></script>
     <script src="..\resources\js\categories.js"></script>
     <script src="..\resources\js\concursantes.js"></script>
@@ -402,7 +464,7 @@
     <script src="..\assets\plugins\datatables.net-responsive\js\dataTables.responsive.min.js"></script>
     <script src="..\assets\plugins\datatables.net-responsive-bs4\js\responsive.bootstrap4.min.js"></script>
     <script src="..\assets\js\demo\table-manage-default.demo.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- Incluir Select2 JS -->
 
     <script>

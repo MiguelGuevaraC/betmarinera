@@ -1,3 +1,3 @@
 $(document).ready(function () {
-    verifyToken(localStorage.getItem('token'));
+    verifyToken(localStorage.getItem('token'),'home');
 });

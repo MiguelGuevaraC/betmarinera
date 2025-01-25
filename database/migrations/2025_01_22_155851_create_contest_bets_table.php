@@ -13,16 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('contest_bets', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description')->nullable(); // Campo opcional para la descripción
             $table->string('status')->default('Activo')->nullable();
-            
+            $table->foreignId('user_id')->nullable()->unsigned()->constrained('users');
             $table->foreignId('contest_id')->nullable()->unsigned()->constrained('contests');
-            $table->timestamps(); // Incluye `created_at` y `updated_at`
-            $table->softDeletes(); // Añade soporte para soft deletes
 
+            $table->timestamps();
+            $table->softDeletes(); // Crea el campo `deleted_at` para soportar soft deletes
         });
     }
 
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('contest_bets');
     }
 };

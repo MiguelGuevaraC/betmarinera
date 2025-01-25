@@ -53,6 +53,10 @@
                             <input type="password" id="password" class="form-control form-control-lg"
                                 placeholder="Contraseña" required="">
                         </div>
+                        <div class="m-t-10 m-b-20 p-b-10 text-inverse">
+                            No eres un usuario aún? Click <a href="#" onclick="showCreateUserModal()">Aquí</a>
+                            para registrarte.
+                        </div>
                         <div class="login-buttons">
                             <button type="submit" class="btn btn-success btn-block btn-lg">Iniciar Sesión</button>
                         </div>
@@ -71,10 +75,75 @@
         </div>
     </div>
     <!-- end page-container -->
+    <!-- Modal Crear Usuario -->
+
+
+    <div id="createUserModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editConcursoModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document" style="max-width: 90%; width: 90%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editConcursoModalLabel">Registrar Usuario Profesional</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="registerProfessionalForm" class="row g-3" style="margin: auto; text-align: justify">
+                        <!-- Nombre y Apellido -->
+                        <div class="col-12 mb-2">
+                            <div class="row">
+                                <div class="col-md-6 mb-2">
+                                    <label for="name" class="form-label">Nombre</label>
+                                    <input type="text" id="name" class="form-control" placeholder="Nombre"
+                                        required>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label for="lastName" class="form-label">Apellido</label>
+                                    <input type="text" id="lastName" class="form-control" placeholder="Apellido"
+                                        required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Correo Electrónico -->
+                        <div class="col-12 mb-2">
+                            <label for="email" class="form-label">Correo Electrónico</label>
+                            <div class="input-group">
+                                <input type="email" id="emailregister" class="form-control" placeholder="Correo"
+                                    required>
+                                <button type="button" onclick="validateEmailBtn()" class="btn btn-primary">Validar</button>
+                            </div>
+                        </div>
+
+                        <!-- Token -->
+                        <div class="col-12 mb-2">
+                            <label for="token" class="form-label">Token</label>
+                            <input type="text" id="token" class="form-control" placeholder="Escribe aquí el Token"
+>
+                        </div>
+
+                        <!-- Contraseña -->
+                        <div class="col-md-6 mb-2">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" id="passwordregister" class="form-control" placeholder="Contraseña"
+                                required>
+                        </div>
+
+                        <!-- Botón Registrar Usuario -->
+                        <div class="col-12 mt-3">
+                            <button type="submit" class="btn btn-success btn-block">Registrar Usuario</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- ================== BEGIN BASE JS ================== -->
     <script src="..\assets\js\app.min.js"></script>
     <script src="..\assets\js\theme\default.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="..\resources\js\login.js"></script>
     <script src="..\resources\js\config.js"></script>
     <!-- ================== END BASE JS ================== -->
@@ -90,7 +159,7 @@
 
             // Realizar la solicitud AJAX
             $.ajax({
-                url: API_RUTA +'/login', // URL para procesar el login
+                url: API_RUTA + '/login', // URL para procesar el login
                 method: 'POST',
                 data: {
                     email: email,
@@ -106,9 +175,9 @@
                         console.log('Token guardado en el localStorage:', response.token);
 
                         // Redirigir a la página de inicio
-                        if (verifyToken(response.token) == "ok") {
+                        if (verifyToken(response.token,'home') == "ok") {
                             window.location.href =
-							WEB_RUTA + '/home';
+                                WEB_RUTA + '/home';
                         }
                     } else {
                         // Si no hay token en la respuesta, mostrar un error
@@ -122,11 +191,12 @@
                             'Hubo un error al intentar iniciar sesión. Por favor, verifica tus datos.';
 
                         alert('Error al iniciar sesión: ' +
-                        errorMessage); // Mostrar el mensaje al usuario
+                            errorMessage); // Mostrar el mensaje al usuario
                     } else {
                         // Si hay otro tipo de error
                         alert(
-                            'Hubo un error al intentar iniciar sesión. Por favor, verifica tus datos.');
+                            'Hubo un error al intentar iniciar sesión. Por favor, verifica tus datos.'
+                        );
                     }
                 }
             });

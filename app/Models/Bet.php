@@ -14,6 +14,7 @@ class Bet extends Model
         'status',
         'user_id',
         'contestant_id',
+        'contest_bet_id',
         'category_id',
         'created_at',
         'updated_at',
@@ -48,4 +49,10 @@ class Bet extends Model
     {
         return $this->belongsTo(Contestant::class, 'contestant_id');
     }
+    public function contest_bet()
+    {
+        return $this->belongsTo(Contest_bet::class, 'contest_bet_id');
+    }
+
+    
 }

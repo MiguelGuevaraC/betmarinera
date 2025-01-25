@@ -1,5 +1,4 @@
 <?php
-
 namespace Database\Seeders;
 
 use App\Models\Permission;
@@ -15,10 +14,10 @@ class PermissionSeeder extends Seeder
     public function run()
     {
         // Permisos para "Usuarios"
-        Permission::create(['name' => 'home', 'type' => 'Vistas']);
-        Permission::create(['name' => 'users', 'type' => 'Vistas']);
-        Permission::create(['name' => 'concursos-list', 'type' => 'Vistas']);
-        Permission::create(['name' => 'concursos-active', 'type' => 'Vistas']);
-        Permission::create(['name' => 'profile', 'type' => 'Vistas']);
+        Permission::create(['name' => 'Inicio', 'icon' => 'fa fa-home', 'route' => 'home', 'type' => 'Vistas']);
+        Permission::create(['name' => 'Apostadores', 'icon' => 'fa fa-users', 'route' => 'users', 'type' => 'Vistas']);
+        Permission::create(['name' => 'Concursos', 'icon' => 'fa fa-trophy', 'route' => 'concursos-list', 'type' => 'Vistas']);
+        Permission::create(['name' => 'Apuestas', 'icon' => 'fa fa-calendar-check', 'route' => 'concursos-active', 'type' => 'Vistas']);
+        Permission::create(['name' => 'Perfil', 'icon' => 'fa fa-pencil-alt', 'route' => 'profile', 'type' => 'Vistas']);
     }
 }

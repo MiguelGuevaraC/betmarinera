@@ -67,10 +67,11 @@ class AuthService
 
         $user = auth()->user();
         $status = true;
-
+        $status = 'No Autenticado';
         if (!$user) {
             $status = false;
             $user = null;
+            $status="Autenticado";
         }
 
         // Llama al método login para realizar la autenticación
@@ -78,6 +79,7 @@ class AuthService
             'status' => true,
             'user' => $user,
             'person' => $user?->person,
+            'message' =>$status,
         ];
     }
 

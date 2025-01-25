@@ -17,6 +17,137 @@
     <link href="..\assets\plugins\datatables.net-bs4\css\dataTables.bootstrap4.min.css" rel="stylesheet">
     <link href="..\assets\plugins\datatables.net-responsive-bs4\css\responsive.bootstrap4.min.css" rel="stylesheet">
     <!-- ================== END PAGE LEVEL STYLE ================== -->
+    <!-- Incluir Select2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+    <style>
+        .col-lg-2-4 {
+            flex: 0 0 20%;
+            /* Ocupa el 20% del ancho total */
+            max-width: 20%;
+        }
+
+        @media (max-width: 1200px) {
+            .col-lg-2-4 {
+                flex: 0 0 25%;
+                /* Cambia a 4 columnas en pantallas medianas */
+                max-width: 25%;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .col-lg-2-4 {
+                flex: 0 0 33.33%;
+                /* Cambia a 3 columnas en pantallas medianas */
+                max-width: 33.33%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .col-lg-2-4 {
+                flex: 0 0 50%;
+                /* Cambia a 2 columnas en pantallas pequeñas */
+                max-width: 50%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .col-lg-2-4 {
+                flex: 0 0 100%;
+                /* Una columna en pantallas extra pequeñas */
+                max-width: 100%;
+            }
+        }
+
+        .widget {
+            padding: 15px;
+            border-radius: 8px;
+            color: #fff;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s ease;
+            /* Transición suave para el aumento de tamaño */
+        }
+
+        .widget:hover {
+            transform: scale(1.1);
+            /* Aumenta el tamaño del contenedor al 110% */
+        }
+
+
+
+
+        .widget .stats-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .widget .stats-info h4 {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        .widget .stats-info p {
+            font-size: 14px !important;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .widget .stats-link {
+            margin-top: 10px;
+        }
+
+        .widget .btn {
+            background: #fff;
+            color: #333;
+            border: none;
+            border-radius: 20px;
+            padding: 5px 15px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .widget .btn:hover {
+            background: #f0f0f0;
+        }
+
+        /* Estilo para el mensaje de estado */
+        .infobet {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .alert {
+            font-size: 16px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .alert-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .alert-warning {
+            background-color: #ffc107;
+            color: white;
+        }
+
+        /* Aseguramos que el mensaje se vea bien en dispositivos pequeños */
+        @media (max-width: 767px) {
+            .infobet {
+                padding: 10px;
+            }
+
+            .alert {
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -30,7 +161,8 @@
         <div id="header" class="header navbar-inverse">
             <!-- begin navbar-header -->
             <div class="navbar-header">
-                <a href="index-1.html" class="navbar-brand"><span class="navbar-logo"></span> <b>Apuestas</b> Marinera</a>
+                <a href="index-1.html" class="navbar-brand"><span class="navbar-logo"></span> <b>Apuestas</b>
+                    Marinera</a>
                 <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -41,10 +173,11 @@
 
             <!-- begin header-nav -->
             <ul class="navbar-nav navbar-right">
-                               <li class="dropdown navbar-user">
+                <li class="dropdown navbar-user">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="..\assets\img\user\user-13.jpeg" alt="">
-                        <span id="usernamebarra2" class="d-none d-md-inline"> Administrador</span> <b class="caret"></b>
+                        <span id="usernamebarra2" class="d-none d-md-inline"> Administrador</span> <b
+                            class="caret"></b>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a href="profile" class="dropdown-item">Perfil</a>
@@ -73,27 +206,25 @@
                             <div class="info">
                                 <b class="caret pull-right"></b>
                                 <p id="usernamebarra">Miguel Guevara</p>
-                                
-                                <small> <p id="typeuser">Administrador</p></small>
+
+                                <small>
+                                    <p id="typeuser">Administrador</p>
+                                </small>
                             </div>
                         </a>
                     </li>
                     <li>
                         <ul class="nav nav-profile">
                             <li><a href="profile"><i class="fa fa-pencil-alt"></i> Perfil</a></li>
-                            <li><a href="javascript:void(0);" onclick="logout()"><i class="fa fa-cog"></i> Cerrar Sesión</a></li>
+                            <li><a href="javascript:void(0);" onclick="logout()"><i class="fa fa-cog"></i> Cerrar
+                                    Sesión</a></li>
                         </ul>
                     </li>
                 </ul>
                 <!-- end sidebar user -->
                 <!-- begin sidebar nav -->
-                <ul class="nav">
-                    <li class="nav-header">Menú de Navegación</li>
-                    <li><a href="home"><i class="fa fa-home"></i> Inicio</a></li>
-                    <li><a href="users"><i class="fa fa-users"></i> Apostadores</a></li>
-
-                    <li><a href="concurso-list"><i class="fa fa-trophy"></i> Concursos</a></li>
-                    <li><a href="concurso-activo"  style="font-weight: bold"><i class="fa fa-calendar-check"></i> Concursos Activos</a></li>
+                <ul class="nav" id="navpermissions">
+                    <!-- El menú se llenará dinámicamente con JavaScript -->
                 </ul>
 
             </div>
@@ -110,7 +241,7 @@
             </ol>
             <!-- end breadcrumb -->
             <!-- begin page-header -->
-            <h1 class="page-header">Concursos Activos <small> Marinera</small></h1>
+            <h1 class="page-header">Apuestas <small> Marinera</small></h1>
             <!-- end page-header -->
             <!-- begin panel -->
             <div class="panel panel-inverse">
@@ -128,53 +259,82 @@
                             data-click="panel-remove"><i class="fa fa-times"></i></a>
                     </div>
                 </div>
+                <style></style>
                 <!-- end panel-heading -->
                 <!-- begin panel-body -->
                 <div class="panel-body">
-                    <table id="table-contant-active" class="table table-striped table-bordered table-td-valign-middle">
-                        <thead>
-                            <tr>
-                                <th width="1%"></th>
-                                <th width="1%" data-orderable="false"></th>
-                                <th class="text-nowrap">Rendering engine</th>
-                                <th class="text-nowrap">Browser</th>
-                                <th class="text-nowrap">Platform(s)</th>
-                                <th class="text-nowrap">Engine version</th>
-                                <th class="text-nowrap">CSS grade</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                       
-                        
-                         
-                            <tr class="gradeC">
-                                <td class="f-s-600 text-inverse">57</td>
-                                <td class="with-img"><img src="..\assets\img\user\user-14.jpeg"
-                                        class="img-rounded height-30"></td>
-                                <td>Misc</td>
-                                <td>PSP browser</td>
-                                <td>PSP</td>
-                                <td>-</td>
-                                <td>C</td>
-                            </tr>
-                            <tr class="gradeU">
-                                <td class="f-s-600 text-inverse">58</td>
-                                <td class="with-img"><img src="..\assets\img\user\user-1.jpeg"
-                                        class="img-rounded height-30"></td>
-                                <td>Other browsers</td>
-                                <td>All others</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>U</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="row mb-2">
+                        <div class="form-group col-md-6">
+                            <label for="contestactive" class="font-weight-bold">Concurso</label>
+                            <input type="hidden" id="statusByApostador" value="">
+                            <select class="form-control" id="contestactiveselect" required>
+                                <option value="" disabled selected>No hay Concursos Activos</option>
+                                <!-- Agrega más opciones aquí -->
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6 d-flex justify-content-end">
+                            <!-- Alineamos el botón a la derecha -->
+                            <!-- Botón Mejorado -->
+                            <button class="btn btn-primary mt-3" id="confirmBetButton" style="display: none;"
+                                onclick="confirmBet()">
+                                <i class="fa fa-check-circle"></i> Confirmar Apuesta
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="row d-flex flex-wrap">
+
+                    </div>
                 </div>
+
+
+
                 <!-- end panel-body -->
             </div>
             <!-- end panel -->
         </div>
         <!-- end #content -->
+        <div id="contestantBetCategory" class="modal fade" tabindex="-1" role="dialog"
+            aria-labelledby="editConcursoModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document"
+                style="max-width: 90%; width: 90%;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editConcursoModalLabel">Seleccionar concursante</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="updatebet" class="row align-items-end" style="margin: auto; text-align: justify">
+                            <!-- Aquí va el contenido de la tabla de concursantes -->
+                            <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                                <table id="contestantsBetTable" class="table table-striped table-bordered table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Descripción</th>
+                                            <th scope="col">Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Filas dinámicas de concursantes se agregarán aquí -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
 
         <!-- end theme-panel -->
 
@@ -189,8 +349,11 @@
 
     <script src="..\assets\js\app.min.js"></script>
     <script src="..\assets\js\theme\default.min.js"></script>
+    <!-- Incluir Select2 -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- ================== END BASE JS ================== -->
-    <script src="..\resources\js\home.js"></script>
+    <script src="..\resources\js\contestant-active.js"></script>
     <script src="..\resources\js\config.js"></script>
     <!-- ================== BEGIN PAGE LEVEL JS ================== -->
     <script src="..\assets\plugins\datatables.net\js\jquery.dataTables.min.js"></script>

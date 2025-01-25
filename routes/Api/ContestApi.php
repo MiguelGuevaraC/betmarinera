@@ -11,6 +11,11 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
     Route::post('contest', [ContestController::class, 'store']);
     Route::get('contest/{id}', [ContestController::class, 'show']);
     Route::put('contest/{id}', [ContestController::class, 'update']);
+    Route::put('contest/{id}/statusfinalizado', [ContestController::class, 'updateStatusFinalizado']);
+    Route::put('contest/{id}/statusactivo', [ContestController::class, 'updateStatusActivo']);
     Route::delete('contest/{id}', [ContestController::class, 'destroy']);
+
+    Route::put('confirm-bet', [ContestController::class, 'confirmbet']);
+    Route::get('list-apostadores/{id}', [ContestController::class, 'listapostadoresbycontest']);
 
 });
