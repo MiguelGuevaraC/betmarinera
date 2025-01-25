@@ -1,5 +1,5 @@
-const API_RUTA = WEB_RUTA+"/api";
-const WEB_RUTA = WEB_RUTA+"";
+const API_RUTA = "http://137.184.71.147:82/betmarinera/public/api";
+const WEB_RUTA = "http://137.184.71.147:82/betmarinera/public";
 const DATA_SRC_FUNCTION = function (json) {
     // Asegurarse de que json tiene la propiedad meta y meta.total
     const totalRecords = (json && json.meta && json.meta.total) ? json.meta.total : 0;
@@ -9,7 +9,7 @@ const DATA_SRC_FUNCTION = function (json) {
     // Verificar que json.data esté presente y sea un array
     return Array.isArray(json.data) ? json.data : [];
 };
-
+console.log('config.js');
 
 const DATATABLES_LANGUAGE_ES = {
     processing: "Procesando...",
