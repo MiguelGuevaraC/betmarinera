@@ -50,9 +50,15 @@
                                 placeholder="Correo" required="">
                         </div>
                         <div class="form-group m-b-15">
-                            <input type="password" id="password" class="form-control form-control-lg"
-                                placeholder="Contraseña" required="">
+                            <input type="password" id="password" class="form-control form-control-lg" placeholder="Contraseña" required="">
                         </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="showPassword">
+                            <label class="form-check-label" for="showPassword">Mostrar contraseña</label>
+                        </div>
+
+                        
+                        
                         <div class="m-t-10 m-b-20 p-b-10 text-inverse">
                             No eres un usuario aún? Click <a href="#" onclick="showCreateUserModal()">Aquí</a>
                             para registrarte.
@@ -220,6 +226,19 @@
         ga('create', 'UA-53034621-1', 'auto');
         ga('send', 'pageview');
     </script>
+
+    
+                        
+<script>
+    $('#showPassword').on('change', function() {
+        const passwordInput = $('#password');
+        if (this.checked) {
+            passwordInput.attr('type', 'text');
+        } else {
+            passwordInput.attr('type', 'password');
+        }
+    });
+</script>
 </body>
 
 </html>

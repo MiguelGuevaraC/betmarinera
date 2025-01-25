@@ -4,7 +4,7 @@ function showCreateUserModal() {
 
 function validateEmailBtn() {
     var email = $("#emailregister").val();
-    if (email === '' || !email.includes("@")) {
+    if (email === "" || !email.includes("@")) {
         Swal.fire({
             icon: "error",
             title: "Error en el correo",
@@ -15,22 +15,20 @@ function validateEmailBtn() {
 
     // Realizar la solicitud AJAX
     $.ajax({
-        url: API_RUTA +"/validatemail", // Ruta donde se enviará la solicitud
+        url: API_RUTA + "/validatemail", // Ruta donde se enviará la solicitud
         method: "POST",
         headers: {
-            Authorization: "Bearer " +  "ZXCV-CVBN-VBNM", // Reemplaza por tu token fijo
+            Authorization: "Bearer " + "ZXCV-CVBN-VBNM", // Reemplaza por tu token fijo
         },
         data: {
             email: email, // Enviar el correo al backend
         },
         success: function (response) {
-        
-                Swal.fire({
-                    icon: "succes",
-                    title: "Correo Enviado",
-                    html: "Verificar y Digitar el token que se ha enviado",
-                });
-          
+            Swal.fire({
+                icon: "succes",
+                title: "Correo Enviado",
+                html: "Verificar y Digitar el token que se ha enviado",
+            });
         },
         error: function () {
             if (error.status === 422) {
@@ -56,7 +54,6 @@ function validateEmailBtn() {
     });
 }
 
-
 $("#registerProfessionalForm").on("submit", function (e) {
     e.preventDefault(); // Prevenimos el comportamiento predeterminado del formulario
 
@@ -74,12 +71,12 @@ $("#registerProfessionalForm").on("submit", function (e) {
         headers: {
             Authorization: "Bearer " + "ZXCV-CVBN-VBNM", // Reemplaza por tu token válido
         },
-        data: { 
-            name: name, 
-            lastName: lastName, 
-            email: email, 
-            password: password ,
-            token: token 
+        data: {
+            name: name,
+            lastName: lastName,
+            email: email,
+            password: password,
+            token: token,
         }, // Enviar los datos del formulario al backend
         success: function (response) {
             Swal.fire({
@@ -87,23 +84,25 @@ $("#registerProfessionalForm").on("submit", function (e) {
                 title: "Registro exitoso",
                 html: "Tu registro se ha realizado correctamente. Revisa tu correo para más instrucciones.",
             });
-
-            // Habilitar el campo de token después del éxito
-            $("#tokenField").removeClass("d-none"); // Asegúrate de que el campo de token tenga esta clase para ocultarlo inicialmente
+            $("#email").val($("#emailregister").val()); // Correo
+            $("#name").val(""); // Nombre
+            $("#lastName").val(""); // Apellido
+            $("#emailregister").val(""); // Correo
+            $("#password").val(""); // Contraseña
+            $("#token").val(""); // Contraseña
+            $("#createUserModal").modal("hide");
         },
         error: function (error) {
             if (error.status === 422) {
                 const errors = error.responseJSON.message;
 
                 let errorMessages = "<ul>";
-                errors.forEach(function (error) {
-                    errorMessages += `<li>${error}</li>`;
-                });
+                errorMessages += `<li>${errors}</li>`;
                 errorMessages += "</ul>";
 
                 Swal.fire({
                     icon: "error",
-                    title: "Errores de validación",
+                    title: "Errores de Validación",
                     html: errorMessages,
                 });
             } else {

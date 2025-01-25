@@ -1,5 +1,5 @@
-const API_RUTA = "http://137.184.71.147:82/betmarinera/public/api";
-const WEB_RUTA = "http://137.184.71.147:82/betmarinera/public";
+const API_RUTA = "http://localhost/bet-marinera/public/api";
+const WEB_RUTA = "http://localhost/bet-marinera/public";
 const DATA_SRC_FUNCTION = function (json) {
     // Asegurarse de que json tiene la propiedad meta y meta.total
     const totalRecords = (json && json.meta && json.meta.total) ? json.meta.total : 0;
@@ -119,11 +119,7 @@ function verifyToken(token,ruta) {
 
             } else if (response.message == "SinPermiso") {
                 window.location.href = WEB_RUTA+"/403"; // Redirige a la página de sin permisos
-            } else {
-                // Si la respuesta no indica que está autenticado
-                console.log("Token inválido o expirado.");
-                window.location.href = WEB_RUTA+"/log-in"; // Redirige al login si el token no es válido
-            }
+            } 
         },
         error: function (xhr, status, error) {
             if (xhr.status === 401) {

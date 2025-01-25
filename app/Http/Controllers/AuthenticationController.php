@@ -187,7 +187,6 @@ class AuthenticationController extends Controller
         // Llama al servicio de autenticación
         $result = $this->authService->authenticate();
 
-
         $token = $request->bearerToken();
 
         $currentRoute = $request->route;
@@ -202,7 +201,6 @@ class AuthenticationController extends Controller
         if (! $hasPermission) {
             return response()->json(['message' => 'No Permitido'], 403);
         }
-   
 
         // Si la autenticación es exitosa, devuelve el token, el usuario y la persona
         return response()->json([
@@ -229,9 +227,10 @@ class AuthenticationController extends Controller
             return response()->json(['message' => 'Este correo ya ha sido Verificado'], 422);
         }
 
-                                            // Generar un token aleatorio
-        $token = bin2hex(random_bytes(16)); // Token de 32 caracteres
-        Cache::put("email_verification_token:{$email}", $token, 120);
+                                                                         // Generar un token aleatorio
+        $token = str_pad(random_int(0, 99999999), 8, '0', STR_PAD_LEFT); // Token de 8 dígitos
+
+        Cache::put("email_verification_token:{$email}", $token, 300);
 
         Mail::to($email)->send(new SendTokenMail($token));
 
@@ -241,6 +240,7 @@ class AuthenticationController extends Controller
     // Función para registrar al usuario utilizando el token
     public function registerUser(Request $request)
     {
+
         $name     = $request->name;
         $lastname = $request->lastname;
         $password = $request->password;
@@ -251,7 +251,7 @@ class AuthenticationController extends Controller
         $cachedToken = Cache::get("email_verification_token:{$email}");
 
         if ($cachedToken != $token) {
-            return response()->json(['message' => 'Token inválido o expirado'], 422);
+            return response()->json(['message' => 'Su token ha vencido, Debe generar nuevo token'], 422);
         }
 
         // Eliminar el token de la caché después de usarlo
