@@ -26,7 +26,7 @@ Route::get('log-in', function () {
 
 Route::get('home', [HomeController::class, 'index'])->name('home');
 Route::get('concursos-list', [ContestController::class, 'index'])->name('concurso-list');
-Route::get('concursos-activo', [ContestantActiveController::class, 'index'])->name('concursos-activo');
+Route::get('concursos-active', [ContestantActiveController::class, 'index'])->name('concursos-active');
 Route::get('users', [UsersController::class, 'index'])->name('users');
 
 Route::get('403', function () {return view('403');})->name('403');

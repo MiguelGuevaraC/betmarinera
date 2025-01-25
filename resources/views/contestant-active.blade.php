@@ -237,7 +237,7 @@
         <div id="content" class="content">
             <!-- begin breadcrumb -->
             <ol class="breadcrumb float-xl-right">
-                <li class="breadcrumb-item"><a href="concursos-activo">Concurso Activo</li>
+                <li class="breadcrumb-item"><a href="concursos-active">Concurso Activo</li>
             </ol>
             <!-- end breadcrumb -->
             <!-- begin page-header -->

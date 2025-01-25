@@ -7,7 +7,6 @@ use App\Http\Requests\ContestRequest\UpdateContestRequest;
 use App\Http\Resources\ContestResource;
 use App\Models\Bet;
 use App\Models\Contest;
-use App\Models\Contest_bet;
 use App\Models\User;
 use App\Services\ContestService;
 use Illuminate\Http\Request;
@@ -162,21 +161,25 @@ class ContestController extends Controller
         if ($contest->consultarstatusByUser() == "Apuesta Confirmada") {
             return response()->json(['error' => 'Este concurso ya tiene una apuesta realizada.'], 422);
         }
+        // Obtener todas las categorías del concurso
         $categories = $contest->categories ?? [];
-        $userBets   = Contest_bet::where('user_id', Auth::user()->id)
-            ->where('contest_id', $contest->id)
-            ->with('categories')
-            ->get()
-            ->pluck('categories.*.id') // Obtener los IDs de las categorías apostadas
-            ->flatten()
-            ->toArray();
 
-        // Obtener los IDs de todas las categorías del concurso
+// Obtener las apuestas del usuario para las categorías del concurso
+        $userBets = Bet::where('user_id', Auth::user()->id)
+            ->whereIn('category_id', $categories->pluck('id')->toArray()) // Asegurarse de que las apuestas sean para las categorías del concurso
+            ->get();
+
+// Extraer los IDs de las categorías apostadas por el usuario
+        $userBetsCategoryIds = $userBets->pluck('category_id')->toArray();
+
+// Obtener los IDs de todas las categorías del concurso
         $categoryIds = $categories->pluck('id')->toArray();
 
-        // Verificar si el usuario ha apostado en todas las categorías
-        if (count(array_diff($categoryIds, $userBets)) > 0) {
-            return response()->json(['message' => 'Debes apostar en todas las categorías antes de confirmar.'], 400);
+// Verificar si el usuario ha apostado en todas las categorías
+        $missingCategories = array_diff($categoryIds, $userBetsCategoryIds);
+
+        if (! empty($missingCategories)) {
+            return response()->json(['message' => 'Debes apostar en todas las categorías antes de confirmar.'], 422);
         }
 
         $contest = $this->contestService->confirmBet($contestId);

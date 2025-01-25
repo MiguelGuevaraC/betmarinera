@@ -186,10 +186,15 @@
                         console.log('Token guardado en el localStorage:', response.token);
 
                         // Redirigir a la página de inicio
-                        if (verifyToken(response.token,'concursos-activo') == "ok") {
-                            window.location.href =
-                                WEB_RUTA + '/concursos-activo';
+console.log(response.conteststatus);
+                        if(response.conteststatus){
+                            window.location.href =WEB_RUTA + '/concursos-active';
+                        }else{
+                            window.location.href =WEB_RUTA + '/home';
                         }
+                        // if (verifyToken(response.token,'concursos-active') == "ok") {
+                        //     window.location.href =WEB_RUTA + '/concursos-active';
+                        // }
                     } else {
                         // Si no hay token en la respuesta, mostrar un error
                         alert('No se recibió un token válido.');

@@ -1,5 +1,8 @@
 const API_RUTA = "http://137.184.71.147:82/betmarinera/public/api";
 const WEB_RUTA = "http://137.184.71.147:82/betmarinera/public";
+
+// const API_RUTA = "http://localhost/bet-marinera/public/api";
+// const WEB_RUTA = "http://localhost/bet-marinera/public";
 const DATA_SRC_FUNCTION = function (json) {
     // Asegurarse de que json tiene la propiedad meta y meta.total
     const totalRecords = (json && json.meta && json.meta.total) ? json.meta.total : 0;
@@ -101,8 +104,8 @@ function verifyToken(token,ruta) {
                 var menuItems = [
                     { name: 'Inicio', route: 'home', icon: 'fa-home' },
                     { name: 'Apostadores', route: 'users', icon: 'fa-users' },
-                    { name: 'Concursos', route: 'concurso-list', icon: 'fa-trophy' },
-                    { name: 'Apuestas', route: 'concurso-activo', icon: 'fa-calendar-check' }
+                    { name: 'Concursos', route: 'concursos-list', icon: 'fa-trophy' },
+                    { name: 'Apuestas', route: 'concursos-active', icon: 'fa-calendar-check' }
                 ];
 
                 // Recorrer los ítems del menú y agregar solo los que el usuario tiene permiso
@@ -118,16 +121,16 @@ function verifyToken(token,ruta) {
                 });
 
             } else if (response.message == "SinPermiso") {
-                window.location.href = WEB_RUTA+"/403"; // Redirige a la página de sin permisos
+                // window.location.href = WEB_RUTA+"/403"; // Redirige a la página de sin permisos
             } 
         },
         error: function (xhr, status, error) {
             if (xhr.status === 401) {
                 window.location.href = WEB_RUTA+"/log-in"; // Redirige al login si el token es inválido
             }
-            if (xhr.status === 403) {
-                window.location.href = WEB_RUTA+"/403"; // Redirige al login si el token es inválido
-            }
+            // if (xhr.status === 403) {
+            //     window.location.href = WEB_RUTA+"/403"; // Redirige al login si el token es inválido
+            // }
 
             if (xhr.status == 500) {
                window.location.href = WEB_RUTA+"/500"; // Redirige al login si el token es inválido

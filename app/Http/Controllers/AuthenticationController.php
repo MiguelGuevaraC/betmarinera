@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AuthenticationRequest\LoginRequest;
 use App\Http\Resources\UserResource;
 use App\Mail\SendTokenMail;
+use App\Models\Contest;
 use App\Models\User;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
@@ -122,11 +123,15 @@ class AuthenticationController extends Controller
                 ], 422);
             }
 
+            $contestExists = Contest::where('status', 'Activo')->exists();
+            $contestStatus = $contestExists ? true : false;
+
             // Retorna la respuesta con el token y el recurso del usuario
             return response()->json([
                 'token'   => $authData['token'],
                 'user'    => new UserResource($authData['user']),
                 'message' => $authData['message'],
+                'conteststatus' => $contestStatus,
             ]);
         } catch (\Exception $e) {
             // Captura cualquier excepción y retorna el mensaje de error
@@ -261,7 +266,7 @@ class AuthenticationController extends Controller
         $password = $request->password;
         $email    = $request->email;
         $token    = $request->token;
-        dd($password);
+
         // Validar que el token esté vigente
         $cachedToken = Cache::get("email_verification_token:{$email}");
 
