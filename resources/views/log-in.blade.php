@@ -186,9 +186,9 @@
                         console.log('Token guardado en el localStorage:', response.token);
 
                         // Redirigir a la página de inicio
-                        if (verifyToken(response.token,'concurso-active') == "ok") {
+                        if (verifyToken(response.token,'concursos-activo') == "ok") {
                             window.location.href =
-                                WEB_RUTA + '/concurso-activo';
+                                WEB_RUTA + '/concursos-activo';
                         }
                     } else {
                         // Si no hay token en la respuesta, mostrar un error
