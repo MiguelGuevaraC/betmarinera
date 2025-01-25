@@ -30,8 +30,9 @@ function validateEmailBtn() {
                 html: "Verificar y Digitar el token que se ha enviado",
             });
         },
-        error: function () {
-            if (error.status === 422) {
+        error: function (error) {
+
+            if (error.status == 422) {
                 const errors = error.responseJSON.message; // Asumiendo que el mensaje es un string
 
                 let errorMessages = "<ul>";
