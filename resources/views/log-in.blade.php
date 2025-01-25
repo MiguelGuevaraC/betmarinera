@@ -134,6 +134,11 @@
                             <label for="password" class="form-label">Contraseña</label>
                             <input type="password" id="passwordregister" class="form-control" placeholder="Contraseña"
                                 required>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="showPasswordregister">
+                                    <label class="form-check-label" for="showPasswordregister">Mostrar contraseña</label>
+                                </div>
+        
                         </div>
 
                         <!-- Botón Registrar Usuario -->
@@ -232,6 +237,14 @@
 <script>
     $('#showPassword').on('change', function() {
         const passwordInput = $('#password');
+        if (this.checked) {
+            passwordInput.attr('type', 'text');
+        } else {
+            passwordInput.attr('type', 'password');
+        }
+    });
+    $('#showPasswordregister').on('change', function() {
+        const passwordInput = $('#passwordregister');
         if (this.checked) {
             passwordInput.attr('type', 'text');
         } else {

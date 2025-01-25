@@ -7,6 +7,7 @@ use App\Http\Requests\ContestRequest\UpdateContestRequest;
 use App\Http\Resources\ContestResource;
 use App\Models\Bet;
 use App\Models\Contest;
+use App\Models\User;
 use App\Services\ContestService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -174,41 +175,24 @@ class ContestController extends Controller
             return response()->json(['error' => 'Concurso no Encontrado'], 422);
         }
     
-        // Inicializar el arreglo de apostadores
-        $apostadores = [];
+        // Obtener todos los usuarios, incluyendo aquellos que no han realizado apuestas
+        $users = User::with(['bets' => function ($query) use ($contest) {
+            // Obtener las apuestas solo para el concurso actual
+            $query->whereIn('category_id', $contest->categories->pluck('id'));
+        }])
+        ->whereNull('deleted_at')  // Solo usuarios no eliminados
+        ->get();
     
-        // Obtener todas las categorías del concurso
-        $categories = $contest->categories;
-    
-        // Obtener todas las apuestas de los usuarios para las categorías del concurso
-        $betsQuery = Bet::whereIn('category_id', $categories->pluck('id'))
-            ->with('user');
-    
-        // Filtrar por nombre de usuario si se pasa un parámetro de búsqueda
-        if (request()->has('search') && request()->input('search')) {
-            $search = request()->input('search');
-            $betsQuery->whereHas('user', function ($query) use ($search) {
-                $query->where('first_name', 'like', "%$search%")
-                      ->orWhere('last_name', 'like', "%$search%");
-            });
-        }
-    
-        // Obtener las apuestas con paginación
-        $bets = $betsQuery->paginate(25);
-    
-        // Agrupar las apuestas por usuario
-        $userBets = $bets->getCollection()->groupBy('user_id');
-    
-        // Inicializar un arreglo para almacenar los puntajes de los apostadores
+        // Inicializar el arreglo de apostadores con puntajes
         $scores = [];
     
-        // Iterar sobre los usuarios que han apostado
-        foreach ($userBets as $userId => $userBetsCollection) {
+        // Iterar sobre los usuarios
+        foreach ($users as $user) {
             // Inicializar el puntaje del usuario
             $score = 0;
     
-            // Obtener las apuestas del usuario
-            foreach ($userBetsCollection as $bet) {
+            // Verificar si el usuario tiene apuestas
+            foreach ($user->bets as $bet) {
                 $category = $bet->category;
     
                 // Verificar si la apuesta es correcta
@@ -216,9 +200,6 @@ class ContestController extends Controller
                     $score++;
                 }
             }
-    
-            // Obtener los detalles del usuario (solo una vez)
-            $user = $userBetsCollection->first()->user;
     
             // Agregar el apostador al arreglo con el puntaje
             $scores[] = [
@@ -237,44 +218,11 @@ class ContestController extends Controller
             $scores[$index]['status'] = ($index == 0) ? 'Ganador' : 'No Gano';
         }
     
-        // Respuesta con los apostadores, la paginación, y los links
+        // Respuesta con los apostadores y los puntajes
         return response()->json([
             "data" => $scores,
-            "links" => [
-                "first" => $bets->url(1),
-                "last" => $bets->url($bets->lastPage()),
-                "prev" => $bets->previousPageUrl(),
-                "next" => $bets->nextPageUrl(),
-            ],
-            "meta" => [
-                "current_page" => $bets->currentPage(),
-                "from" => $bets->firstItem(),
-                "last_page" => $bets->lastPage(),
-                "links" => [
-                    [
-                        "url" => $bets->previousPageUrl(),
-                        "label" => "&laquo; Previous",
-                        "active" => !$bets->onFirstPage()
-                    ],
-                    [
-                        "url" => $bets->url($bets->currentPage()),
-                        "label" => $bets->currentPage(),
-                        "active" => true
-                    ],
-                    [
-                        "url" => $bets->nextPageUrl(),
-                        "label" => "Next &raquo;",
-                        "active" => $bets->hasMorePages()
-                    ]
-                ],
-                "path" => url()->current(),
-                "per_page" => $bets->perPage(),
-                "to" => $bets->lastItem(),
-                "total" => $bets->total()
-            ]
         ]);
     }
-    
     
 
 }
