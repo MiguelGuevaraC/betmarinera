@@ -261,7 +261,7 @@ class AuthenticationController extends Controller
         $password = $request->password;
         $email    = $request->email;
         $token    = $request->token;
-
+        dd($password);
         // Validar que el token esté vigente
         $cachedToken = Cache::get("email_verification_token:{$email}");
 

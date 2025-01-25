@@ -7,6 +7,7 @@ use App\Http\Requests\ContestRequest\UpdateContestRequest;
 use App\Http\Resources\ContestResource;
 use App\Models\Bet;
 use App\Models\Contest;
+use App\Models\Contest_bet;
 use App\Models\User;
 use App\Services\ContestService;
 use Illuminate\Http\Request;
@@ -161,6 +162,22 @@ class ContestController extends Controller
         if ($contest->consultarstatusByUser() == "Apuesta Confirmada") {
             return response()->json(['error' => 'Este concurso ya tiene una apuesta realizada.'], 422);
         }
+        $categories = $contest->categories ?? [];
+        $userBets   = Contest_bet::where('user_id', Auth::user()->id)
+            ->where('contest_id', $contest->id)
+            ->with('categories')
+            ->get()
+            ->pluck('categories.*.id') // Obtener los IDs de las categorías apostadas
+            ->flatten()
+            ->toArray();
+
+        // Obtener los IDs de todas las categorías del concurso
+        $categoryIds = $categories->pluck('id')->toArray();
+
+        // Verificar si el usuario ha apostado en todas las categorías
+        if (count(array_diff($categoryIds, $userBets)) > 0) {
+            return response()->json(['message' => 'Debes apostar en todas las categorías antes de confirmar.'], 400);
+        }
 
         $contest = $this->contestService->confirmBet($contestId);
 
@@ -171,58 +188,57 @@ class ContestController extends Controller
     {
         // Buscar el concurso
         $contest = Contest::find($id);
-        if (!$contest) {
+        if (! $contest) {
             return response()->json(['error' => 'Concurso no Encontrado'], 422);
         }
-    
+
         // Obtener todos los usuarios, incluyendo aquellos que no han realizado apuestas
         $users = User::with(['bets' => function ($query) use ($contest) {
             // Obtener las apuestas solo para el concurso actual
             $query->whereIn('category_id', $contest->categories->pluck('id'));
         }])
-        ->whereNull('deleted_at')  // Solo usuarios no eliminados
-        ->get();
-    
+            ->whereNull('deleted_at') // Solo usuarios no eliminados
+            ->get();
+
         // Inicializar el arreglo de apostadores con puntajes
         $scores = [];
-    
+
         // Iterar sobre los usuarios
         foreach ($users as $user) {
             // Inicializar el puntaje del usuario
             $score = 0;
-    
+
             // Verificar si el usuario tiene apuestas
             foreach ($user->bets as $bet) {
                 $category = $bet->category;
-    
+
                 // Verificar si la apuesta es correcta
                 if ($bet->contestant_id == $category->contestantwin_id) {
                     $score++;
                 }
             }
-    
+
             // Agregar el apostador al arreglo con el puntaje
             $scores[] = [
                 'name_apostador' => $user->first_name . " " . $user->last_name,
                 'score'          => $score,
             ];
         }
-    
+
         // Ordenar los apostadores por puntaje en orden descendente
         usort($scores, function ($a, $b) {
             return $b['score'] - $a['score'];
         });
-    
+
         // Asignar el campo 'status' a "Ganador" al primero en la lista
         foreach ($scores as $index => $apostador) {
             $scores[$index]['status'] = ($index == 0) ? 'Ganador' : 'No Gano';
         }
-    
+
         // Respuesta con los apostadores y los puntajes
         return response()->json([
             "data" => $scores,
         ]);
     }
-    
 
 }
