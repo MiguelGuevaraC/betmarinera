@@ -216,16 +216,16 @@ class AuthenticationController extends Controller
         header("Access-Control-Allow-Origin: http://137.184.71.147:82/betmarinera/public"); // O usa el dominio específico: 'http://tu-dominio-frontend.com'
 
 // Métodos permitidos (GET, POST, PUT, DELETE, etc.)
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 
 // Encabezados permitidos
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
+        header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 // Si la solicitud es un "preflight request", enviamos una respuesta 200
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
+        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+            http_response_code(200);
+            exit();
+        }
 
         // Validar la autorización fija
         $authHeader = $request->header('Authorization');
