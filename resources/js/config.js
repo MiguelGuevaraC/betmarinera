@@ -101,8 +101,8 @@ function verifyToken(token,ruta) {
                 var menuItems = [
                     { name: 'Inicio', route: 'home', icon: 'fa-home' },
                     { name: 'Apostadores', route: 'users', icon: 'fa-users' },
-                    { name: 'Concursos', route: 'concurso-list', icon: 'fa-trophy' },
-                    { name: 'Apuestas', route: 'concurso-activo', icon: 'fa-calendar-check' }
+                    { name: 'Concursos', route: 'concursos-list', icon: 'fa-trophy' },
+                    { name: 'Apuestas', route: 'concursos-activo', icon: 'fa-calendar-check' }
                 ];
 
                 // Recorrer los ítems del menú y agregar solo los que el usuario tiene permiso
