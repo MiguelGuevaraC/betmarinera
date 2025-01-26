@@ -273,6 +273,9 @@ class AuthenticationController extends Controller
         if ($cachedToken != $token) {
             return response()->json(['message' => 'Su token ha vencido, Debe generar nuevo token'], 422);
         }
+        if ($password =="") {
+            return response()->json(['message' => 'La contraseña es Requerida'], 422);
+        }
 
         // Eliminar el token de la caché después de usarlo
 
