@@ -5,12 +5,14 @@ use App\Http\Requests\ContestRequest\IndexContestRequest;
 use App\Http\Requests\ContestRequest\StoreContestRequest;
 use App\Http\Requests\ContestRequest\UpdateContestRequest;
 use App\Http\Resources\ContestResource;
+use App\Mail\BetSummaryMail;
 use App\Models\Bet;
 use App\Models\Contest;
 use App\Models\User;
 use App\Services\ContestService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ContestController extends Controller
 {
@@ -183,6 +185,8 @@ class ContestController extends Controller
         }
 
         $contest = $this->contestService->confirmBet($contestId);
+
+        Mail::to(Auth::user()->email)->send(new BetSummaryMail($userBets, $contest));
 
         return new ContestResource($contest);
     }
