@@ -511,7 +511,7 @@ function viewBet(id) {
         autoWidth: false,
         pagingType: "simple_numbers",
         ajax: {
-            url: API_RUTA + "/list-apostadores/"+id,
+            url: API_RUTA + "/list-apostadores/" + id,
             method: "GET",
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("token"),
@@ -524,31 +524,44 @@ function viewBet(id) {
                     search: d.search.value,
                 };
             },
-            dataSrc: DATA_SRC_FUNCTION,
+            dataSrc: function (json) {
+                // Verificar que cada objeto de datos tenga "name_apostador" y "score"
+                json.data.forEach(function (row) {
+                    if (!row.hasOwnProperty("name_apostador") || !row.hasOwnProperty("score")) {
+                        row.name_apostador = "No Disponible";
+                        row.score = "0"; // Asignar valores predeterminados si faltan
+                    }
+                });
+                return json.data;
+            },
         },
         columns: [
             { data: "name_apostador", title: "Nombre" },
             { data: "score", title: "Puntaje" },
         ],
         columnDefs: [
-
+            {
+                targets: 0,
+                width: "70%",
+            },
+            {
+                targets: 1,
+                width: "30%",
+            },
         ],
         createdRow: function (row, data) {
-            if (data.status != "Ganador") {
+            // Verificar si hay un ganador y aplicar el fondo
+            if (data.status !== "Ganador") {
                 $(row).css("background-color", "#ffe5e5"); // Color rojo bajito
             } else {
-                $(row).css("background-color", "#e7ffe5"); //
+                $(row).css("background-color", "#e7ffe5"); // Color verde para ganador
             }
         },
         drawCallback: function () {
             if ($(window).width() <= 576) {
-                $(
-                    ".dataTables_paginate, .dataTables_length, .dataTables_info"
-                ).hide();
+                $(".dataTables_paginate, .dataTables_length, .dataTables_info").hide();
             } else {
-                $(
-                    ".dataTables_paginate, .dataTables_filter, .dataTables_info"
-                ).show();
+                $(".dataTables_paginate, .dataTables_filter, .dataTables_info").show();
                 $(".dataTables_length").hide();
             }
         },

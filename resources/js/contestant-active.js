@@ -277,64 +277,60 @@ $(document).ready(function () {
     });
 });
 
-// Función que se ejecuta al hacer clic en el botón
-function confirmBet() {
-    // Muestra un mensaje de confirmación
-    Swal.fire({
-        title: "¿Estás seguro?",
-        text: "¿Deseas confirmar tu apuesta?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Sí, confirmar",
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Si el usuario confirma, puedes realizar la solicitud AJAX
-            $.ajax({
-                url: API_RUTA + "/confirm-bet", // Ruta para obtener las categorías
-                method: "PUT",
-                headers: {
-                    Authorization: "Bearer " + localStorage.getItem("token"), // Token de autenticación
-                },
-                data: {
-                    contest_id: $("#contestactiveselect").val(), // Obtener el valor del select.
-                    per_page: 300, // Obtener el valor del select
-                },
-                success: function (response) {
-                    // Si la solicitud es exitosa, muestra un mensaje de éxito
-                    Swal.fire(
-                        "Confirmado!",
-                        "Tu apuesta ha sido realizada.",
-                        "success"
-                    );
-                    $(".row.d-flex.flex-wrap").html('<div class="infobet alert alert-success">Este concurso ya tiene una apuesta realizada.</div>');
-                    $("#confirmBetButton").fadeOut();
-                },
-                error: function (error) {
-                    if (error.status === 422) {
-                        const errors = error.responseJSON.message;
-
-                        let errorMessages = "<ul>";
-                        errorMessages += `<li>${errors}</li>`;
-                        errorMessages += "</ul>";
-
-                        Swal.fire({
-                            icon: "error",
-                            title: "Errores de Validación",
-                            html: errorMessages,
-                        });
-                    } else if (xhr.status === 401) {
-                        window.location.href = "/"; // Aquí se manda a la ruta raíz que carga la vista log-in
-                    } else {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error",
-                            text: "No se pudo agregar la categoría. Intente nuevamente.",
-                        });
-                    }
-                },
-            });
-        }
+function viewBet(id) {
+    $("#contestApostadorTable").DataTable({
+        language: DATATABLES_LANGUAGE_ES,
+        processing: true,
+        serverSide: true,
+        destroy: true,
+        pageLength: 25,
+        lengthMenu: [25, 50, 100],
+        responsive: {
+            details: {
+                display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                type: "inline",
+            },
+        },
+        autoWidth: false,
+        pagingType: "simple_numbers",
+        ajax: {
+            url: API_RUTA + "/list-apostadores/" + id,
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+            data: function (d) {
+                return {
+                    contest_id: id,
+                    page: d.start / d.length + 1,
+                    per_page: d.length,
+                    search: d.search.value,
+                };
+            },
+            dataSrc: DATA_SRC_FUNCTION,
+        },
+        columns: [
+            { data: "name_apostador", title: "Nombre" },
+            { data: "score", title: "Puntaje" },
+        ],
+        columnDefs: [],
+        createdRow: function (row, data) {
+            // Eliminar cambio de color basado en el estado "Ganador"
+            // Si no deseas cambiar el color, simplemente elimina o comenta la siguiente línea:
+            // if (data.status != "Ganador") {
+            //     $(row).css("background-color", "#ffe5e5"); // Color rojo bajito
+            // } else {
+            //     $(row).css("background-color", "#e7ffe5"); //
+            // }
+        },
+        drawCallback: function () {
+            if ($(window).width() <= 576) {
+                $(".dataTables_paginate, .dataTables_length, .dataTables_info").hide();
+            } else {
+                $(".dataTables_paginate, .dataTables_filter, .dataTables_info").show();
+                $(".dataTables_length").hide();
+            }
+        },
     });
+    $("#listapostadores").modal("show");
 }
