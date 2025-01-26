@@ -63,9 +63,21 @@ $("#registerProfessionalForm").on("submit", function (e) {
     var name = $("#name").val(); // Nombre
     var lastName = $("#lastName").val(); // Apellido
     var email = $("#emailregister").val(); // Correo
-    var password = $("#password").val(); // Contraseña
+    var password = $("#passwordregister").val(); // Contraseña
     var token = $("#token").val(); // Contraseña
     // Enviar solicitud AJAX para registrar al usuario
+
+    
+        // Validar entrada
+        if (!token || !password || !email) {
+            Swal.fire({
+                icon: "warning",
+                title: "Campos Requerido",
+                text: "Por favor, ingrese todos los campos.",
+            });
+            return;
+        }
+
     $.ajax({
         url: API_RUTA + "/registerUser", // Reemplaza con la ruta real de tu backend
         method: "POST",
@@ -89,7 +101,7 @@ $("#registerProfessionalForm").on("submit", function (e) {
             $("#name").val(""); // Nombre
             $("#lastName").val(""); // Apellido
             $("#emailregister").val(""); // Correo
-            $("#password").val(""); // Contraseña
+            $("#passwordregister").val(""); // Contraseña
             $("#token").val(""); // Contraseña
             $("#createUserModal").modal("hide");
         },

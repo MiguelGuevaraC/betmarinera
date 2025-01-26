@@ -38,7 +38,7 @@ class AuthService
         if (!Hash::check($password, $user->password)) {
             return [
                 'status' => false,
-                'message' => "Credenciales inválidas", // Mensaje más general
+                'message' => "Contraseña Incorrecta", // Mensaje más general
                 'user' => null,
                 'token' => null,
             ];
