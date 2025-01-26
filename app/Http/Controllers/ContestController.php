@@ -219,9 +219,11 @@ class ContestController extends Controller
             foreach ($user->bets as $bet) {
                 $category = $bet->category;
 
-                // Verificar si la apuesta es correcta
-                if ($bet->contestant_id == $category->contestantwin_id) {
-                    $score++;
+                if ($bet->status == "Confirmado") {
+                    // Verificar si la apuesta es correcta
+                    if ($bet->contestant_id == $category->contestantwin_id) {
+                        $score++;
+                    }
                 }
             }
 

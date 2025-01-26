@@ -531,14 +531,7 @@ function viewBet(id) {
             { data: "score", title: "Puntaje" },
         ],
         columnDefs: [
-            {
-                targets: 0,
-                width: "70%",
-            },
-            {
-                targets: 1,
-                width: "30%",
-            },
+
         ],
         createdRow: function (row, data) {
             if (data.status != "Ganador") {
