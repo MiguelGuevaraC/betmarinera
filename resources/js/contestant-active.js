@@ -56,6 +56,7 @@ $(document).ready(function () {
                                     <div class="stats-link">
                                         <button class="btn btn-light btn-sm open-contestants-modal" 
                                             data-category-id="${category.id}" 
+                                              data-category-name="${category.name}" 
                                             data-bs-toggle="modal" 
                                             data-bs-target="#contestantBetCategory">Ver</button>
                                     </div>
@@ -112,6 +113,8 @@ $(document).ready(function () {
 
 $(document).on("click", ".open-contestants-modal", function () {
     const categoryId = $(this).data("category-id");
+    var categoryName = $(this).data("category-name");
+    $("#categoryName").text(categoryName);
 
     $("#contestantsBetTable").DataTable({
         language: DATATABLES_LANGUAGE_ES, // Establecer el idioma en español

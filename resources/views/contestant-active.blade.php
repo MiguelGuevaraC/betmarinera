@@ -304,7 +304,10 @@
                 style="max-width: 90%; width: 90%;">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editConcursoModalLabel">Seleccionar concursante</h5>
+                        <h5 class="modal-title" id="editConcursoModalLabel">
+                            Seleccionar concursante para la Categoría: 
+                            <span style="color: #ff000b; font-weight: bold; text-transform: uppercase;" id="categoryName"></span>
+                        </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                             <span aria-hidden="true">&times;</span>
                         </button>
