@@ -89,7 +89,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document" style="max-width: 90%; width: 90%;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editConcursoModalLabel">Registrar Usuario Profesional</h5>
+                    <h5 class="modal-title" id="editConcursoModalLabel">Registrar Usuario</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -160,6 +160,7 @@
     <!-- ================== END BASE JS ================== -->
 
     <script>
+        
         // Lógica para el login y manejo del contenido
         $('#loginForm').submit(function(e) {
             e.preventDefault(); // Prevenir el comportamiento por defecto del formulario

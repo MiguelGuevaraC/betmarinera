@@ -31,6 +31,14 @@ $(document).ready(function () {
                     }),
                 };
             },
+            error: function (xhr, status, error) {
+                if (xhr.status === 401) {
+                    window.location.href = WEB_RUTA + "/log-in"; // Reemplazar con la URL de tu página de login
+                } else {
+                    console.error("Error: " + error);
+                }
+                Swal.close();
+            },
             cache: true, // Para evitar realizar las mismas peticiones múltiples veces
         },
     });
@@ -67,6 +75,14 @@ function showContestants(id) {
                     per_page: d.length, // Cantidad de registros por página
                     search: d.search.value, // Valor del campo de búsqueda
                 };
+            },
+            error: function (xhr, status, error) {
+                if (xhr.status === 401) {
+                    window.location.href = WEB_RUTA + "/log-in"; // Reemplazar con la URL de tu página de login
+                } else {
+                    console.error("Error: " + error);
+                }
+                Swal.close();
             },
             dataSrc: DATA_SRC_FUNCTION,
         },
@@ -175,7 +191,7 @@ $(document).ready(function () {
                         html: errorMessages,
                     });
                 } else if (xhr.status === 401) {
-                    window.location.href = "/"; // Aquí se manda a la ruta raíz que carga la vista log-in
+                     window.location.href = WEB_RUTA + "/log-in"; // Aquí se manda a la ruta raíz que carga la vista log-in
                 } else {
                     Swal.fire({
                         icon: "error",

@@ -302,13 +302,13 @@ function activateContest(id) {
                             .ajax.reload(null, false);
                     }
                 },
-                error: function (xhr) {
-                    // Manejar errores
-                    Swal.fire(
-                        "Error",
-                        "Hubo un problema al activar el concurso. Por favor, intenta de nuevo.",
-                        "error"
-                    );
+                error: function (xhr, status, error) {
+                    if (xhr.status === 401) {
+                        window.location.href = WEB_RUTA + "/log-in"; // Reemplazar con la URL de tu página de login
+                    } else {
+                        console.error("Error: " + error);
+                    }
+                    Swal.close();
                 },
             });
         }
@@ -344,6 +344,14 @@ function addWinner(id) {
                     per_page: d.length,
                     search: d.search.value,
                 };
+            },
+            error: function (xhr, status, error) {
+                if (xhr.status === 401) {
+                    window.location.href = WEB_RUTA + "/log-in"; // Reemplazar con la URL de tu página de login
+                } else {
+                    console.error("Error: " + error);
+                }
+                Swal.close();
             },
             dataSrc: DATA_SRC_FUNCTION,
         },
@@ -410,6 +418,14 @@ function addWinner(id) {
                                 contest_id: contestId,
                                 search: params.term || "",
                             };
+                        },
+                        error: function (xhr, status, error) {
+                            if (xhr.status === 401) {
+                                window.location.href = WEB_RUTA + "/log-in"; // Reemplazar con la URL de tu página de login
+                            } else {
+                                console.error("Error: " + error);
+                            }
+                            Swal.close();
                         },
                         delay: 500,
                         processResults: function (data) {
@@ -523,6 +539,14 @@ function viewBet(id) {
                     per_page: d.length,
                     search: d.search.value,
                 };
+            },
+            error: function (xhr, status, error) {
+                if (xhr.status === 401) {
+                    window.location.href = WEB_RUTA + "/log-in"; // Reemplazar con la URL de tu página de login
+                } else {
+                    console.error("Error: " + error);
+                }
+                Swal.close();
             },
             dataSrc: function (json) {
                 // Verificar que cada objeto de datos tenga "name_apostador" y "score"

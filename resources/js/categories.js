@@ -32,6 +32,14 @@ function showCategories(id) {
                     search: d.search.value // Valor del campo de búsqueda
                 };
             },
+            error: function (xhr, status, error) {
+                if (xhr.status === 401) {
+                    window.location.href = WEB_RUTA + "/log-in"; // Reemplazar con la URL de tu página de login
+                } else {
+                    console.error("Error: " + error);
+                }
+                Swal.close();
+            },
             dataSrc: DATA_SRC_FUNCTION,
         },
         columns: [

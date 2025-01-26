@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    verifyToken(localStorage.getItem("token"),'concursos-active');
+    verifyToken(localStorage.getItem("token"), "concursos-active");
 });
 
 $(document).ready(function () {
@@ -27,8 +27,6 @@ $(document).ready(function () {
             success: function (response) {
                 // Asegúrate de que la respuesta contenga los datos esperados
                 if (response && response.data) {
-               
-
                     $("#confirmBetButton").fadeIn();
 
                     let categoriesHtml = "";
@@ -74,8 +72,13 @@ $(document).ready(function () {
                     Swal.close();
                 }
             },
-            error: function (error) {
-                console.error("Error al obtener las categorías:", error);
+
+            error: function (xhr, status, error) {
+                if (xhr.status === 401) {
+                    window.location.href = WEB_RUTA + "/log-in"; // Reemplazar con la URL de tu página de login
+                } else {
+                    console.error("Error: " + error);
+                }
                 Swal.close();
             },
         });
@@ -87,13 +90,14 @@ $(document).ready(function () {
         $(".row.d-flex.flex-wrap").html("");
 
         if ($("#contestactiveselect").val() != null) {
-            if(contestStatus != 'Apuesta Confirmada'){
+            if (contestStatus != "Apuesta Confirmada") {
                 fetchCategories(); // Llamar a la función cuando el valor del select cambie
-            }else{
-                $(".row.d-flex.flex-wrap").html('<div class="infobet alert alert-success">Este concurso ya tiene una apuesta realizada.</div>');
+            } else {
+                $(".row.d-flex.flex-wrap").html(
+                    '<div class="infobet alert alert-success">Este concurso ya tiene una apuesta realizada.</div>'
+                );
                 $("#confirmBetButton").fadeOut();
             }
-           
         } else {
             $("#confirmBetButton").fadeOut();
         }
@@ -141,6 +145,13 @@ $(document).on("click", ".open-contestants-modal", function () {
                 };
             },
             dataSrc: DATA_SRC_FUNCTION,
+            error: function (xhr, status, error) {
+                if (xhr.status === 401) {
+                    window.location.href = WEB_RUTA + "/log-in"; // Reemplazar con la URL de tu página de login
+                } else {
+                    console.error("Error: " + error);
+                }
+            },
         },
         columns: [
             { data: "names", title: "Nombre" },
@@ -183,6 +194,7 @@ $(document).on("click", ".open-contestants-modal", function () {
             }
         },
     });
+
     $("#contestantBetCategory").modal("show");
 });
 
@@ -219,7 +231,7 @@ $(document).on("change", ".statusbet-radio", function () {
                     html: errorMessages,
                 });
             } else if (xhr.status === 401) {
-                window.location.href = "/"; // Aquí se manda a la ruta raíz que carga la vista log-in
+                 window.location.href = WEB_RUTA + "/log-in"; // Aquí se manda a la ruta raíz que carga la vista log-in
             } else {
                 Swal.fire({
                     icon: "error",
@@ -266,8 +278,9 @@ $(document).ready(function () {
                         return {
                             id: item.id, // El valor que se enviará al servidor al seleccionar una opción
                             text: item.name, // El texto que se mostrará en el select
-                            status: item.
-                            statusByApostador || "Apuesta No Confirmada", // Agregar un campo "status" en el objeto
+                            status:
+                                item.statusByApostador ||
+                                "Apuesta No Confirmada", // Agregar un campo "status" en el objeto
                         };
                     }),
                 };
@@ -325,9 +338,13 @@ function viewBet(id) {
         },
         drawCallback: function () {
             if ($(window).width() <= 576) {
-                $(".dataTables_paginate, .dataTables_length, .dataTables_info").hide();
+                $(
+                    ".dataTables_paginate, .dataTables_length, .dataTables_info"
+                ).hide();
             } else {
-                $(".dataTables_paginate, .dataTables_filter, .dataTables_info").show();
+                $(
+                    ".dataTables_paginate, .dataTables_filter, .dataTables_info"
+                ).show();
                 $(".dataTables_length").hide();
             }
         },
