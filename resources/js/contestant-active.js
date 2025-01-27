@@ -111,6 +111,70 @@ $(document).ready(function () {
     });
 });
 
+// Función que se ejecuta al hacer clic en el botón
+function confirmBet() {
+    // Muestra un mensaje de confirmación
+    Swal.fire({
+        title: "¿Estás seguro?",
+        text: "¿Deseas confirmar tu apuesta?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, confirmar",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Si el usuario confirma, puedes realizar la solicitud AJAX
+            $.ajax({
+                url: API_RUTA + "/confirm-bet", // Ruta para obtener las categorías
+                method: "PUT",
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token"), // Token de autenticación
+                },
+                data: {
+                    contest_id: $("#contestactiveselect").val(), // Obtener el valor del select.
+                    per_page: 300, // Obtener el valor del select
+                },
+                success: function (response) {
+                    // Si la solicitud es exitosa, muestra un mensaje de éxito
+                    Swal.fire(
+                        "Confirmado!",
+                        "Tu apuesta ha sido realizada.",
+                        "success"
+                    );
+                    $(".row.d-flex.flex-wrap").html(
+                        '<div class="infobet alert alert-success">Este concurso ya tiene una apuesta realizada.</div>'
+                    );
+                    $("#confirmBetButton").fadeOut();
+                },
+                error: function (error) {
+                    if (error.status === 422) {
+                        const errors = error.responseJSON.message;
+
+                        let errorMessages = "<ul>";
+                        errorMessages += `<li>${errors}</li>`;
+                        errorMessages += "</ul>";
+
+                        Swal.fire({
+                            icon: "error",
+                            title: "Errores de Validación",
+                            html: errorMessages,
+                        });
+                    } else if (xhr.status === 401) {
+                        window.location.href = "/"; // Aquí se manda a la ruta raíz que carga la vista log-in
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "No se pudo agregar la categoría. Intente nuevamente.",
+                        });
+                    }
+                },
+            });
+        }
+    });
+}
+
 $(document).on("click", ".open-contestants-modal", function () {
     const categoryId = $(this).data("category-id");
     var categoryName = $(this).data("category-name");
@@ -234,7 +298,7 @@ $(document).on("change", ".statusbet-radio", function () {
                     html: errorMessages,
                 });
             } else if (xhr.status === 401) {
-                 window.location.href = WEB_RUTA + "/log-in"; // Aquí se manda a la ruta raíz que carga la vista log-in
+                window.location.href = WEB_RUTA + "/log-in"; // Aquí se manda a la ruta raíz que carga la vista log-in
             } else {
                 Swal.fire({
                     icon: "error",
