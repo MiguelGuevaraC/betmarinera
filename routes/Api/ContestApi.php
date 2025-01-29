@@ -20,4 +20,6 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
 
 
     Route::get('exportContestReport/{id}', [ContestController::class, 'exportContestReport'])->name('exportContestReport');
+
+    Route::get('exportContestPDFReport/{id}', [ContestController::class, 'downloadContestReport'])->name('downloadContestReport');
 });

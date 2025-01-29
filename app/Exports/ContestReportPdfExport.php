@@ -5,12 +5,13 @@ use App\Models\Contest;
 use App\Models\User;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Mpdf\Mpdf;
 
-class ContestReportExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles
+class ContestReportPdfExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles
 {
     protected $contest;
 
@@ -115,9 +116,30 @@ class ContestReportExport implements FromCollection, WithHeadings, ShouldAutoSiz
             // Ajuste de texto para cada columna
             $sheet->getStyle($column)->getAlignment()->setWrapText(true);
 
-                                                               // Establecer un ancho fijo para cada columna
+            // Establecer un ancho fijo para cada columna
             $sheet->getColumnDimension($column)->setWidth(10); // Ajusta el valor a lo que necesites
         }
     }
 
+    public function exportToPdf()
+    {
+        // Obtener los datos del reporte
+        $data = $this->collection();
+        
+        // Pasar los datos a la vista
+        $pdfContent = view('pdfs.reportwincontest', [
+            'contest' => $this->contest,
+            'headings' => $this->headings(),
+            'data' => $data,
+        ])->render();
+    
+        // Crear una instancia de Mpdf
+        $mpdf = new Mpdf();
+        $mpdf->WriteHTML($pdfContent);
+
+    
+        // Generar el PDF y guardarlo o descargarlo
+        return $mpdf->Output("Reporte - ".$this->contest->name, 'D'); // 'D' para descargar
+    }
+    
 }

@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    verifyToken(localStorage.getItem("token"),'concursos-list');
+    verifyToken(localStorage.getItem("token"), "concursos-list");
 });
 
 function mostrarCrearConcursoModal() {
@@ -510,42 +510,67 @@ function addWinner(id) {
     $("#contestantWinCategory").modal("show");
 }
 
-
 function downloadWinnersReport(contestId, namecontest) {
     // Deshabilitar el botón para evitar múltiples clics
-    let button = document.querySelector('button');
+    let button = document.querySelector("button");
     button.disabled = true;
 
-    // Realizar la solicitud AJAX
-    $.ajax({
-        url: API_RUTA +`/exportContestReport/${contestId}`,
-        method: 'GET',
-        xhrFields: {
-            responseType: 'blob'  // Necesario para manejar archivos binarios como Excel
-        },
-        headers: {
-            Authorization:
-                "Bearer " + localStorage.getItem("token"),
-        },
-        success: function(response) {
-            // Crear un enlace temporal para descargar el archivo Excel
-            const url = window.URL.createObjectURL(response);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'Reporte-'+namecontest+'.xlsx'; // Nombre del archivo a descargar
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-        },
-        error: function(xhr, status, error) {
-            alert('Ocurrió un error al descargar el reporte.');
-        },
-        complete: function() {
-            // Habilitar el botón nuevamente después de la respuesta
-            button.disabled = false;
+    let url = API_RUTA;  // Asegúrate de que API_RUTA esté bien definida en tu código.
+
+    // Mostrar SweetAlert para elegir entre PDF o Excel
+    Swal.fire({
+        title: "Selecciona el formato",
+        text: "Elige si deseas descargar el reporte en PDF o Excel",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "PDF",
+        cancelButtonText: "Excel",
+    }).then((result) => {
+        // Actualizar la URL según el formato seleccionado
+        if (result.isConfirmed) {
+            url = url + `/exportContestPDFReport/${contestId}`;
+        } else if (result.isDismissed) {
+            url = url + `/exportContestReport/${contestId}`;
         }
+
+        // Realizar la solicitud AJAX para descargar el archivo
+        $.ajax({
+            url: url,
+            method: "GET",
+            xhrFields: {
+                responseType: "blob", // Necesario para manejar archivos binarios como PDF o Excel
+            },
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),  // Asegúrate de que el token esté disponible
+            },
+            success: function (response) {
+                // Crear un enlace temporal para descargar el archivo
+                const fileUrl = window.URL.createObjectURL(response);
+                const a = document.createElement("a");
+                a.href = fileUrl;
+
+                // Verificar el tipo de archivo para poner la extensión correcta
+                if (result.isConfirmed) {
+                    a.download = "Reporte-" + namecontest + ".pdf";  // Si es PDF
+                } else {
+                    a.download = "Reporte-" + namecontest + ".xlsx";  // Si es Excel
+                }
+
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            },
+            error: function (xhr, status, error) {
+                alert("Ocurrió un error al descargar el reporte.");
+            },
+            complete: function () {
+                // Habilitar el botón nuevamente después de la respuesta
+                button.disabled = false;
+            },
+        });
     });
 }
+
 
 function viewBet(id) {
     $("#contestApostadorTable").DataTable({
@@ -588,7 +613,10 @@ function viewBet(id) {
             dataSrc: function (json) {
                 // Verificar que cada objeto de datos tenga "name_apostador" y "score"
                 json.data.forEach(function (row) {
-                    if (!row.hasOwnProperty("name_apostador") || !row.hasOwnProperty("score")) {
+                    if (
+                        !row.hasOwnProperty("name_apostador") ||
+                        !row.hasOwnProperty("score")
+                    ) {
                         row.name_apostador = "No Disponible";
                         row.score = "0"; // Asignar valores predeterminados si faltan
                     }
@@ -620,9 +648,13 @@ function viewBet(id) {
         },
         drawCallback: function () {
             if ($(window).width() <= 576) {
-                $(".dataTables_paginate, .dataTables_length, .dataTables_info").hide();
+                $(
+                    ".dataTables_paginate, .dataTables_length, .dataTables_info"
+                ).hide();
             } else {
-                $(".dataTables_paginate, .dataTables_filter, .dataTables_info").show();
+                $(
+                    ".dataTables_paginate, .dataTables_filter, .dataTables_info"
+                ).show();
                 $(".dataTables_length").hide();
             }
         },
