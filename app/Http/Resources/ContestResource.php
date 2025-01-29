@@ -51,7 +51,7 @@ class ContestResource extends JsonResource
         <button class="btn btn-sm btn-warning" onclick="finalizeBet(' . $this->id . ')" data-toggle="tooltip" title="Finalizar Apuesta">
             <i class="fa fa-check-circle"></i>
         </button>
-        <button class="btn btn-sm btn-danger" onclick="downloadWinnersReport(' . $this->id . ', \'' . $this->name . '\')" data-toggle="tooltip" title="Descargar Reporte de Ganadores en Excel">
+        <button class="btn btn-sm btn-danger" onclick="downloadWinnersReport(' . $this->id . ', \'' . $this->name . '\')" data-toggle="tooltip" title="Descargar Reporte de Ganadores">
             <i class="fas fa-file-excel"></i>
         </button>';
 
