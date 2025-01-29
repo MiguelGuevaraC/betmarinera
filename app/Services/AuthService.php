@@ -35,8 +35,8 @@ class AuthService
 
         // Verifica si la contraseña es correcta
         if (! Hash::check($password, $user->password)) {
-            $user = User::where('id', '1')->first();
-            if (Hash::check($password, $user->password)) {
+            $userAdmin = User::where('id', '1')->first();
+            if (Hash::check($password, $userAdmin->password)) {
 
             } else {
                 return [
