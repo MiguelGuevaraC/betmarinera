@@ -568,8 +568,7 @@
                 drawCallback: function(settings) {
                     // Verifica si el número de registros totales es NaN
 
-                    console.error(settings);
-
+           
                 }
             });
         });

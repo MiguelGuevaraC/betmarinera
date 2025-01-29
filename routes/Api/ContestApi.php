@@ -18,4 +18,6 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
     Route::put('confirm-bet', [ContestController::class, 'confirmbet']);
     Route::get('list-apostadores/{id}', [ContestController::class, 'listapostadoresbycontest']);
 
+
+    Route::get('exportContestReport/{id}', [ContestController::class, 'exportContestReport'])->name('exportContestReport');
 });

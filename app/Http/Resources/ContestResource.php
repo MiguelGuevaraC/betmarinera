@@ -34,7 +34,6 @@ class ContestResource extends JsonResource
 
 ';
 
-
             if ($this->categories()->count() > 0) {
                 $actionButtons .= '<button class="btn btn-sm btn-success" onclick="showContestants(' . $this->id . ')" data-toggle="tooltip" title="Agregar Participantes">
 <i class="fa fa-users"></i>
@@ -46,12 +45,16 @@ class ContestResource extends JsonResource
 </button>';
             }
         } else {
-            $actionButtons .= '<button class="btn btn-sm btn-info" onclick="viewBet(' . $this->id . ')" data-toggle="tooltip" title="Ver Apuesta">
-        <i class="fa fa-eye"></i>
-    </button>
-    <button class="btn btn-sm btn-warning" onclick="finalizeBet(' . $this->id . ')" data-toggle="tooltip" title="Finalizar Apuesta">
+            $actionButtons .= '<button class="btn btn-sm btn-info" onclick="viewBet(' . $this->id . ')" data-toggle="tooltip" title="Ver Puntajes">
+            <i class="fa fa-eye"></i>
+        </button>
+        <button class="btn btn-sm btn-warning" onclick="finalizeBet(' . $this->id . ')" data-toggle="tooltip" title="Finalizar Apuesta">
             <i class="fa fa-check-circle"></i>
+        </button>
+        <button class="btn btn-sm btn-danger" onclick="downloadWinnersReport(' . $this->id . ', \'' . $this->name . '\')" data-toggle="tooltip" title="Descargar Reporte de Ganadores en Excel">
+            <i class="fas fa-file-excel"></i>
         </button>';
+
         }
 
         if ($this->status != 'Pendiente') {
@@ -70,7 +73,7 @@ class ContestResource extends JsonResource
 
         if ($this->status == 'Finalizado') {
             {
-                $actionButtons = ' <button class="btn btn-sm btn-info" onclick="viewBet(' . $this->id . ')" data-toggle="tooltip" title="Ver Apuesta">
+                $actionButtons = ' <button class="btn btn-sm btn-info" onclick="viewBet(' . $this->id . ')" data-toggle="tooltip" title="Ver Puntajes">
         <i class="fa fa-eye"></i>
     </button> ';
             }

@@ -510,6 +510,43 @@ function addWinner(id) {
     $("#contestantWinCategory").modal("show");
 }
 
+
+function downloadWinnersReport(contestId, namecontest) {
+    // Deshabilitar el botón para evitar múltiples clics
+    let button = document.querySelector('button');
+    button.disabled = true;
+
+    // Realizar la solicitud AJAX
+    $.ajax({
+        url: API_RUTA +`/exportContestReport/${contestId}`,
+        method: 'GET',
+        xhrFields: {
+            responseType: 'blob'  // Necesario para manejar archivos binarios como Excel
+        },
+        headers: {
+            Authorization:
+                "Bearer " + localStorage.getItem("token"),
+        },
+        success: function(response) {
+            // Crear un enlace temporal para descargar el archivo Excel
+            const url = window.URL.createObjectURL(response);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Reporte-'+namecontest+'.xlsx'; // Nombre del archivo a descargar
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        },
+        error: function(xhr, status, error) {
+            alert('Ocurrió un error al descargar el reporte.');
+        },
+        complete: function() {
+            // Habilitar el botón nuevamente después de la respuesta
+            button.disabled = false;
+        }
+    });
+}
+
 function viewBet(id) {
     $("#contestApostadorTable").DataTable({
         language: DATATABLES_LANGUAGE_ES,

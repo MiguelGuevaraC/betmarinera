@@ -60,12 +60,12 @@ class ContestService
 
     public function confirmBet($id): Contest
     {
-                                          // Buscar las apuestas relacionadas con el ID proporcionado
-        $contest    = Contest::find($id); // Asegúrate de que 'Contest' sea el nombre correcto de tu modelo para concursos
+                                       // Buscar las apuestas relacionadas con el ID proporcionado
+        $contest = Contest::find($id); // Asegúrate de que 'Contest' sea el nombre correcto de tu modelo para concursos
 
         $categories = $contest->categories ?? [];
 
-        $contest_bet= Contest_bet::create([
+        $contest_bet = Contest_bet::create([
             "user_id"    => Auth::user()->id,
             "contest_id" => $id,
         ]);
@@ -74,9 +74,9 @@ class ContestService
 
             $cat = Category::find($cate->id);
             if ($cate->bet()) {
-                $bet         = Bet::find($cat->bet()->id);
-                $bet->status = 'Confirmado'; // Asegúrate de tener un campo `status` en tu tabla `bets`
-                $bet->contest_bet_id= $contest_bet->id; // Asegúrate de tener un campo `status` en tu tabla `bets`
+                $bet                 = Bet::find($cat->bet()->id);
+                $bet->status         = 'Confirmado';     // Asegúrate de tener un campo `status` en tu tabla `bets`
+                $bet->contest_bet_id = $contest_bet->id; // Asegúrate de tener un campo `status` en tu tabla `bets`
                 $bet->save();
             }
         }

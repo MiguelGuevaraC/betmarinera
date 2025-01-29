@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Exports\ContestReportExport;
 use App\Http\Requests\ContestRequest\IndexContestRequest;
 use App\Http\Requests\ContestRequest\StoreContestRequest;
 use App\Http\Requests\ContestRequest\UpdateContestRequest;
@@ -13,6 +14,7 @@ use App\Services\ContestService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ContestController extends Controller
 {
@@ -248,6 +250,11 @@ class ContestController extends Controller
         return response()->json([
             "data" => $scores,
         ]);
+    }
+
+    public function exportContestReport($contestId)
+    {
+        return Excel::download(new ContestReportExport($contestId), 'reporte_concurso.xlsx');
     }
 
 }

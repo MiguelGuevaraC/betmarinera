@@ -31,3 +31,4 @@ Route::get('users', [UsersController::class, 'index'])->name('users');
 
 Route::get('403', function () {return view('403');})->name('403');
 Route::get('500', function () {return view('500');})->name('500');
+
