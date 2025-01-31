@@ -32,21 +32,29 @@ class ContestApostadoresController extends Controller
             Contest_bet::sorts,
             ContestBetResource::class
         );
-
+    
+        // Obtén el user_id del usuario logueado
+        $userId = auth()->id(); // Asumiendo que estás usando Laravel's autenticación
+    
+        // Filtra los resultados por user_id antes de agrupar
+        $filteredResults = $results->filter(function ($item) use ($userId) {
+            return $item->user_id == $userId;
+        });
+    
         // Filtra los concursos para que solo haya un concurso único por 'contest_id'
-        $uniqueContests = $results->groupBy('contest_id')->map(function ($group) {
+        $uniqueContests = $filteredResults->groupBy('contest_id')->map(function ($group) {
             // Toma el primer elemento de cada grupo, ya que todos tienen el mismo contest_id
             return $group->first();
         });
-
-                                                     // Convertir la colección de grupos en un array simple
+    
+        // Convertir la colección de grupos en un array simple
         $uniqueContests = $uniqueContests->values(); // Esto convierte el grupo a un array sin claves
-
-        // Mapea los resultados para obtener el formato que necesitas usando el recurso ContestResource
+    
+        // Mapea los resultados para obtener el formato que necesitas usando el recurso ContestBetResource
         $mappedResults = $uniqueContests->map(function ($item) {
             return new ContestBetResource($item); // Asegúrate de pasar el modelo de concurso real
         });
-
+    
         // Crear la respuesta con los datos, links de paginación y meta
         $response = [
             'data'  => $mappedResults, // Los resultados ahora están en formato de array
@@ -64,9 +72,10 @@ class ContestApostadoresController extends Controller
                 'total'        => $results->total(),
             ],
         ];
-
+    
         // Retorna la respuesta estructurada
         return response()->json($response);
     }
+    
 
 }
