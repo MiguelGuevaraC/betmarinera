@@ -55,13 +55,13 @@
                         </div>
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="showPassword">
-                            <label class="form-check-label" for="showPassword" style="font-size: 14px">
+                            <label class="form-check-label" for="showPassword" style="font-size: 16px">
                                 Mostrar contraseña</label>
                         </div>
 
 
 
-                        <div class="m-t-10 m-b-20 p-b-10 text-inverse" style="font-size: 14px">
+                        <div class="m-t-10 m-b-20 p-b-10 text-inverse" style="font-size: 16px">
                             ¿Eres nuevo usuario? Haz Click <a href="#" onclick="showCreateUserModal()">Aquí</a>
                             para obtener tus credenciales
                         </div>
