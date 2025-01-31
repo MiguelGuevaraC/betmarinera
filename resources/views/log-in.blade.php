@@ -50,18 +50,20 @@
                                 placeholder="Correo" required="">
                         </div>
                         <div class="form-group m-b-15">
-                            <input type="password" id="password" class="form-control form-control-lg" placeholder="Contraseña" required="">
+                            <input type="password" id="password" class="form-control form-control-lg"
+                                placeholder="Contraseña" required="">
                         </div>
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="showPassword">
-                            <label class="form-check-label" for="showPassword">Mostrar contraseña</label>
+                            <label class="form-check-label" for="showPassword" style="font-size: 14px">
+                                Mostrar contraseña</label>
                         </div>
 
-                        
-                        
-                        <div class="m-t-10 m-b-20 p-b-10 text-inverse">
-                            No eres un usuario aún? Click <a href="#" onclick="showCreateUserModal()">Aquí</a>
-                            para registrarte.
+
+
+                        <div class="m-t-10 m-b-20 p-b-10 text-inverse" style="font-size: 14px">
+                            ¿Eres nuevo usuario? Haz Click <a href="#" onclick="showCreateUserModal()">Aquí</a>
+                            para obtener tus credenciales
                         </div>
                         <div class="login-buttons">
                             <button type="submit" class="btn btn-success btn-block btn-lg">Iniciar Sesión</button>
@@ -114,31 +116,32 @@
 
                         <!-- Correo Electrónico -->
                         <div class="col-12 mb-2">
-                            <label for="email" class="form-label">Correo Electrónico</label>
-                            <div class="input-group">
-                                <input type="email" id="emailregister" class="form-control" placeholder="Correo"
-                                    required>
-                                <button type="button" onclick="validateEmailBtn()" class="btn btn-primary">Validar</button>
+                            <label for="emailregister" class="form-label">Correo Electrónico</label>
+                            <div class="d-flex flex-column flex-md-row gap-2">
+                                <input type="email" id="emailregister" class="form-control" placeholder="Correo" required>
+                                <button type="button" class="btn btn-primary flex-shrink-0" onclick="validateEmailBtn()">Obtener Token de validación</button>
                             </div>
                         </div>
+                        
+                        
 
                         <!-- Token -->
                         <div class="col-12 mb-2">
                             <label for="token" class="form-label">Token</label>
-                            <input type="text" id="token" class="form-control" placeholder="Escribe aquí el Token"
->
+                            <input type="text" id="token" class="form-control"
+                                placeholder="Escribe aquí el Token">
                         </div>
 
                         <!-- Contraseña -->
                         <div class="col-md-6 mb-2">
                             <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" id="passwordregister" class="form-control" placeholder="Contraseña"
-                                required>
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="showPasswordregister">
-                                    <label class="form-check-label" for="showPasswordregister">Mostrar contraseña</label>
-                                </div>
-        
+                            <input type="password" id="passwordregister" class="form-control"
+                                placeholder="Contraseña" required>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="showPasswordregister">
+                                <label class="form-check-label" for="showPasswordregister">Mostrar contraseña</label>
+                            </div>
+
                         </div>
 
                         <!-- Botón Registrar Usuario -->
@@ -160,7 +163,6 @@
     <!-- ================== END BASE JS ================== -->
 
     <script>
-        
         // Lógica para el login y manejo del contenido
         $('#loginForm').submit(function(e) {
             e.preventDefault(); // Prevenir el comportamiento por defecto del formulario
@@ -184,14 +186,11 @@
                     if (response.token) {
                         // Guardar el token en el localStorage
                         localStorage.setItem('token', response.token);
-                        console.log('Token guardado en el localStorage:', response.token);
 
-                        // Redirigir a la página de inicio
-console.log(response.conteststatus);
-                        if(response.conteststatus){
-                            window.location.href =WEB_RUTA + '/concursos-active';
-                        }else{
-                            window.location.href =WEB_RUTA + '/home';
+                        if (response.conteststatus) {
+                            window.location.href = WEB_RUTA + '/concursos-active';
+                        } else {
+                            window.location.href = WEB_RUTA + '/home';
                         }
                         // if (verifyToken(response.token,'concursos-active') == "ok") {
                         //     window.location.href =WEB_RUTA + '/concursos-active';
@@ -238,26 +237,26 @@ console.log(response.conteststatus);
         ga('send', 'pageview');
     </script>
 
-    
-                        
-<script>
-    $('#showPassword').on('change', function() {
-        const passwordInput = $('#password');
-        if (this.checked) {
-            passwordInput.attr('type', 'text');
-        } else {
-            passwordInput.attr('type', 'password');
-        }
-    });
-    $('#showPasswordregister').on('change', function() {
-        const passwordInput = $('#passwordregister');
-        if (this.checked) {
-            passwordInput.attr('type', 'text');
-        } else {
-            passwordInput.attr('type', 'password');
-        }
-    });
-</script>
+
+
+    <script>
+        $('#showPassword').on('change', function() {
+            const passwordInput = $('#password');
+            if (this.checked) {
+                passwordInput.attr('type', 'text');
+            } else {
+                passwordInput.attr('type', 'password');
+            }
+        });
+        $('#showPasswordregister').on('change', function() {
+            const passwordInput = $('#passwordregister');
+            if (this.checked) {
+                passwordInput.attr('type', 'text');
+            } else {
+                passwordInput.attr('type', 'password');
+            }
+        });
+    </script>
 </body>
 
 </html>

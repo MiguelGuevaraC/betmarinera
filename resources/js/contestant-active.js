@@ -103,11 +103,81 @@ $(document).ready(function () {
             $("#confirmBetButton").fadeOut();
         }
     });
+    $("#contestactiveselect").on("select2:clear", function () {
+        $(".row.d-flex.flex-wrap").html("");
+    });
 
     // Supongamos que el modal tiene el id 'contestantBetCategory'
     $("#contestantBetCategory").on("hidden.bs.modal", function () {
         // Llama a la función fetchCategories después de que el modal se haya cerrado
         fetchCategories();
+    });
+
+    const contestId = $("#contestId").val();
+
+    $("#contestactiveselect").select2({
+        placeholder: "Buscar Concurso...",
+        allowClear: true,
+        ajax: {
+            url: API_RUTA + "/list-contest", // Ruta para obtener los concursos
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"), // Token de autenticación
+            },
+            data: function (params) {
+                return {
+                    status: "Activo",
+                    search: params.term || "",
+                };
+            },
+            delay: 500,
+            processResults: function (data) {
+                return {
+                    results: data.data.map(function (item) {
+                        return {
+                            id: item.id,
+                            text: item.name,
+                            status: item.statusByApostador || "Apuesta No Confirmada",
+                        };
+                    }),
+                };
+            },
+            cache: true,
+        },
+    });
+
+    // Búsqueda automática del primer concurso
+    $.ajax({
+        url: API_RUTA + "/list-contest",
+        method: "GET",
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+        data: {
+            status: "Activo",
+            search: "",
+        },
+        success: function (response) {
+            if (response.data && response.data.length > 0) {
+                let firstContest = response.data[0]; // Tomar el primer concurso
+                $("#contestactiveselect").append(
+                    new Option(firstContest.name, firstContest.id, true, true)
+                ).trigger("change"); // Agregar y seleccionar automáticamente
+                const contestStatus = firstContest.statusByApostador; // Obtener el estado adicional "status"
+
+                if (contestStatus != "Apuesta Confirmada") {
+                    fetchCategories(); // Llamar a la función cuando el valor del select cambie
+                } else {
+                    $(".row.d-flex.flex-wrap").html(
+                        '<div class="infobet alert alert-success">Este concurso ya tiene una apuesta realizada.</div>'
+                    );
+                    $("#confirmBetButton").fadeOut();
+                }
+            }
+        },
+        error: function () {
+            console.error("Error al obtener los concursos.");
+        },
     });
 });
 
@@ -318,44 +388,9 @@ $(document).on("click", ".select-contestant", function () {
 });
 
 $(document).ready(function () {
-    const contestId = $("#contestId").val();
 
-    $("#contestactiveselect").select2({
-        placeholder: "Buscar Concurso...",
-        allowClear: true,
-        ajax: {
-            url: API_RUTA + "/list-contest", // Ruta para obtener las categorías
-            method: "GET",
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"), // Token de autenticación
-            },
-            data: function (params) {
-                // Obtener contestId cada vez que el usuario escribe
-                const contestId = $("#contestId").val();
-                return {
-                    status: "Activo", // Enviar el contest_id actualizado
-                    search: params.term || "", // Enviar el término de búsqueda (params.term)
-                };
-            },
-            delay: 500, // Retardo en milisegundos para evitar hacer peticiones muy rápidas
-            processResults: function (data) {
-                // Transformar los datos para que Select2 pueda mostrarlos correctamente
-                return {
-                    results: data.data.map(function (item) {
-                        return {
-                            id: item.id, // El valor que se enviará al servidor al seleccionar una opción
-                            text: item.name, // El texto que se mostrará en el select
-                            status:
-                                item.statusByApostador ||
-                                "Apuesta No Confirmada", // Agregar un campo "status" en el objeto
-                        };
-                    }),
-                };
-            },
-            cache: true, // Para evitar realizar las mismas peticiones múltiples veces
-        },
-    });
 });
+
 
 function viewBet(id) {
     $("#contestApostadorTable").DataTable({
