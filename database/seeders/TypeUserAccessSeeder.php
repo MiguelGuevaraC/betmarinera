@@ -33,7 +33,7 @@ class TypeUserAccessSeeder extends Seeder
             );
         }
         $role= Rol::create(['name' => 'Apostador']);
-        $validPermissions=[1,4,5];
+        $validPermissions=[1,4,5,6];
         foreach ($validPermissions as $permission_id) {
             $permission= Permission::find($permission_id);
             Permission_rol::Create(

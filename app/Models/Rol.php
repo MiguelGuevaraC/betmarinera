@@ -12,6 +12,7 @@ class Rol extends Model
     protected $fillable = [
         'id',
         'name',
+        'type',
         'description',
         'status',
         'created_at',
@@ -40,8 +41,10 @@ class Rol extends Model
 
     public function permissions()
     {
-        return $this->belongsToMany(Permission::class, 'permission_rols', 'rol_id', 'permission_id');
+        return $this->belongsToMany(Permission::class, 'permission_rols', 'rol_id', 'permission_id')
+                    ->whereNull('permissions.deleted_at'); // Filtra solo los permisos no eliminados
     }
+    
 
     public function permissionByRol()
     {

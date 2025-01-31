@@ -27,4 +27,5 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
     require __DIR__ . '/Api/CategoriesApi.php';        //CATEGORIES
     require __DIR__ . '/Api/ContestantApi.php';        //CONTESTANT
     require __DIR__ . '/Api/BetApi.php';        //BET
+    require __DIR__ . '/Api/ContestApostadorApi.php';        //CONTEST APOSTADORES
 });

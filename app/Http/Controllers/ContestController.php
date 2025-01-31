@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Exports\ContestMiApuestaExport;
 use App\Exports\ContestReportPdfExport;
 use App\Http\Requests\ContestRequest\IndexContestRequest;
 use App\Http\Requests\ContestRequest\StoreContestRequest;
@@ -259,6 +260,18 @@ class ContestController extends Controller
     public function downloadContestReport($contestId)
     {
         $export = new ContestReportPdfExport($contestId);
+        return $export->exportToPdf();
+    }
+
+    public function exportContestReportMiApuesta($contestId)
+    {
+       
+        return Excel::download(new ContestMiApuestaExport($contestId,false), 'mi_apuesta.xlsx');
+    }
+    public function downloadContestReportMiApuesta($contestId)
+    {
+      
+        $export = new ContestMiApuestaExport($contestId,false);
         return $export->exportToPdf();
     }
 

@@ -31,6 +31,7 @@ class Category extends Model
         'status'      => 'like',
         'contest_id'  => "=",
         "contestant_win.names"=> 'like',
+"bets.contestant.names"  => 'like',
     ];
 
     /**
@@ -64,5 +65,10 @@ class Category extends Model
             ->latest('created_at')            // Obtener la última apuesta
             ->first();
     }
+// Modelo Category
+public function bets()
+{
+    return $this->hasMany(Bet::class, 'category_id'); // Relación con la tabla Bet usando category_id
+}
 
 }

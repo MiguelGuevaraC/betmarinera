@@ -29,7 +29,9 @@ class IndexCategoryContestActiveRequest extends IndexRequest
                 'required',
                 'string',
                 function ($attribute, $value, $fail) {
-                    $contest = Contest::where('id', $value)->where('status', 'Activo')->first();
+                    $contest = Contest::where('id', $value)
+                    // ->where('status', 'Activo')
+                    ->first();
 
                     if (! $contest) {
                         $fail("El $attribute no es válido o el concurso no está activo.");

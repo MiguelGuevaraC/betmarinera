@@ -1,8 +1,8 @@
-const API_RUTA = "http://137.184.71.147:82/betmarinera/public/api";
-const WEB_RUTA = "http://137.184.71.147:82/betmarinera/public";
+// const API_RUTA = "http://137.184.71.147:82/betmarinera/public/api";
+// const WEB_RUTA = "http://137.184.71.147:82/betmarinera/public";
 
-// const API_RUTA = "http://localhost/bet-marinera/public/api";
-// const WEB_RUTA = "http://localhost/bet-marinera/public";
+const API_RUTA = "http://localhost/bet-marinera/public/api";
+const WEB_RUTA = "http://localhost/bet-marinera/public";
 const DATA_SRC_FUNCTION = function (json) {
     // Asegurarse de que json tiene la propiedad meta y meta.total
     const totalRecords =
@@ -102,35 +102,12 @@ function verifyToken(token, ruta) {
                 $navPermissions.empty();
                 $navPermissions.append(
                     '<li class="nav-header">Menú de Navegación</li>'
-                ); // Agregar el ítem al menú
-                // Definir los ítems del menú
-                var menuItems = [
-                    { name: "Inicio", route: "home", icon: "fa-home" },
-                    { name: "Apostadores", route: "users", icon: "fa-users" },
-                    {
-                        name: "Concursos",
-                        route: "concursos-list",
-                        icon: "fa-trophy",
-                    },
-                    {
-                        name: "Apuestas",
-                        route: "concursos-active",
-                        icon: "fa-calendar-check",
-                    },
-                ];
+                );
 
-                // Recorrer los ítems del menú y agregar solo los que el usuario tiene permiso
-                menuItems.forEach(function (item) {
-                    // Comprobamos si el usuario tiene el permiso correspondiente
-                    var permission = permissions.find(
-                        (p) => p.name === item.name
-                    );
-
-                    // Si el permiso existe y está activo, agregarlo al menú
-                    if (permission) {
-                        var menuItemHTML = `<li><a href="${item.route}"><i class="fa ${item.icon}"></i> ${item.name}</a></li>`;
-                        $navPermissions.append(menuItemHTML); // Agregar el ítem al menú
-                    }
+                // Recorrer los permisos y agregarlos al menú
+                permissions.forEach(function (permission) {
+                    var menuItemHTML = `<li><a href="${permission.route}"><i class="fa ${permission.icon}"></i> ${permission.name}</a></li>`;
+                    $navPermissions.append(menuItemHTML);
                 });
             } else if (response.message == "SinPermiso") {
                 // window.location.href = WEB_RUTA+"/403"; // Redirige a la página de sin permisos
@@ -141,11 +118,11 @@ function verifyToken(token, ruta) {
                 window.location.href = WEB_RUTA + "/log-in"; // Redirige al login si el token es inválido
             }
             if (xhr.status === 403) {
-                window.location.href = WEB_RUTA+"/403"; // Redirige al login si el token es inválido
+                window.location.href = WEB_RUTA + "/403"; // Redirige al login si el token es inválido
             }
 
             if (xhr.status == 500) {
-                window.location.href = WEB_RUTA + "/500"; // Redirige al login si el token es inválido
+                // window.location.href = WEB_RUTA + "/500"; // Redirige al login si el token es inválido
             }
             // Si hay un error con la solicitud o el token es inválido
             console.log("Error al verificar autenticación:", error);

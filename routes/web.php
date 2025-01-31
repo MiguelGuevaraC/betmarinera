@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ConstantActiveController;
 use App\Http\Controllers\ContestantActiveController;
+use App\Http\Controllers\ContestApostadoresController;
 use App\Http\Controllers\ContestController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UsersController;
@@ -27,6 +28,7 @@ Route::get('log-in', function () {
 Route::get('home', [HomeController::class, 'index'])->name('home');
 Route::get('concursos-list', [ContestController::class, 'index'])->name('concurso-list');
 Route::get('concursos-active', [ContestantActiveController::class, 'index'])->name('concursos-active');
+Route::get('concursos-apostadores', [ContestApostadoresController::class, 'index'])->name('concursos-apostadores');
 Route::get('users', [UsersController::class, 'index'])->name('users');
 
 Route::get('403', function () {return view('403');})->name('403');

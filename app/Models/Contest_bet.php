@@ -1,8 +1,6 @@
 <?php
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -26,11 +24,13 @@ class Contest_bet extends Model
         'deleted_at',
     ];
     const filters = [
-  
-        'user_id'=> '=',
-        'contest_id'=> '=',
-        'bet_id'=> '=',
 
+        'user_id'            => '=',
+        'contest_id'         => '=',
+
+        'contest.name'       => 'like',
+        'contest.created_at' => 'like',
+        'contest.status'       => 'like',
     ];
 
     /**
@@ -38,7 +38,7 @@ class Contest_bet extends Model
      */
     const sorts = [
         'id' => 'desc',
-    
+
     ];
 
     public function user()

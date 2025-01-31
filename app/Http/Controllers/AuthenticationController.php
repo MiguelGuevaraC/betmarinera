@@ -204,6 +204,7 @@ class AuthenticationController extends Controller
 
         // Si no tiene permiso para la ruta, devuelve un error 401
         if (! $hasPermission) {
+
             return response()->json(['message' => 'No Permitido'], 403);
         }
 
