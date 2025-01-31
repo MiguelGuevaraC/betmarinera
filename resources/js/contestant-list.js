@@ -511,11 +511,11 @@ function addWinner(id) {
 }
 
 function downloadWinnersReport(contestId, namecontest) {
-    // Deshabilitar el botón para evitar múltiples clics
-    let button = document.querySelector("button");
-    button.disabled = true;
+    // Obtener el botón que disparó la acción
+    let button = event.target;
+    button.disabled = true; // Deshabilitar el botón para evitar múltiples clics
 
-    let url = API_RUTA;  // Asegúrate de que API_RUTA esté bien definida en tu código.
+    let url = API_RUTA; // Asegurar que API_RUTA esté definida
 
     // Mostrar SweetAlert para elegir entre PDF o Excel
     Swal.fire({
@@ -526,11 +526,14 @@ function downloadWinnersReport(contestId, namecontest) {
         confirmButtonText: "PDF",
         cancelButtonText: "Excel",
     }).then((result) => {
-        // Actualizar la URL según el formato seleccionado
-        if (result.isConfirmed) {
-            url = url + `/exportContestPDFReport/${contestId}`;
-        } else if (result.isDismissed) {
-            url = url + `/exportContestReport/${contestId}`;
+        // Si el usuario cierra la alerta sin seleccionar, no hacer nada
+        if (result.dismiss === Swal.DismissReason.cancel) {
+            url += `/exportContestReport/${contestId}`; // Descargar Excel
+        } else if (result.isConfirmed) {
+            url += `/exportContestPDFReport/${contestId}`; // Descargar PDF
+        } else {
+            button.disabled = false; // Rehabilitar el botón si no se seleccionó nada
+            return; // Salir sin hacer la solicitud AJAX
         }
 
         // Realizar la solicitud AJAX para descargar el archivo
@@ -538,38 +541,33 @@ function downloadWinnersReport(contestId, namecontest) {
             url: url,
             method: "GET",
             xhrFields: {
-                responseType: "blob", // Necesario para manejar archivos binarios como PDF o Excel
+                responseType: "blob", // Para manejar archivos binarios (PDF/Excel)
             },
             headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),  // Asegúrate de que el token esté disponible
+                Authorization: "Bearer " + localStorage.getItem("token"), // Token de autenticación
             },
             success: function (response) {
-                // Crear un enlace temporal para descargar el archivo
                 const fileUrl = window.URL.createObjectURL(response);
                 const a = document.createElement("a");
                 a.href = fileUrl;
 
-                // Verificar el tipo de archivo para poner la extensión correcta
-                if (result.isConfirmed) {
-                    a.download = "Reporte-" + namecontest + ".pdf";  // Si es PDF
-                } else {
-                    a.download = "Reporte-" + namecontest + ".xlsx";  // Si es Excel
-                }
+                // Determinar el nombre del archivo según el formato elegido
+                a.download = `Reporte-${namecontest}.${result.isConfirmed ? "pdf" : "xlsx"}`;
 
                 document.body.appendChild(a);
                 a.click();
                 a.remove();
             },
-            error: function (xhr, status, error) {
-                alert("Ocurrió un error al descargar el reporte.");
+            error: function () {
+                Swal.fire("Error", "Ocurrió un error al descargar el reporte.", "error");
             },
             complete: function () {
-                // Habilitar el botón nuevamente después de la respuesta
-                button.disabled = false;
+                button.disabled = false; // Rehabilitar el botón al finalizar
             },
         });
     });
 }
+
 
 
 function viewBet(id) {
